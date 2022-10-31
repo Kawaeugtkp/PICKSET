@@ -18,19 +18,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         
-//        let char1 = " "
-//        let char2 = "  "
-//        let char3 = " 　"
-//        let char4 = "　　"
-//        let char5 = "  　　 "
-//        print("DEBUG: \(char1.isOnlySpace)")
-//        print("DEBUG: \(char2.isOnlySpace)")
-//        print("DEBUG: \(char3.isOnlySpace)")
-//        print("DEBUG: \(char4.isOnlySpace)")
-//        print("DEBUG: \(char5.isOnlySpace)")
-        var str1 = "   　　　　"
-        print("DEBUG: \(str1.isOnly(structuredBy: "　 "))")
-        
         // Override point for customization after application launch.
         if #available(iOS 15.0, *) {
             // disable UINavigation bar transparent
