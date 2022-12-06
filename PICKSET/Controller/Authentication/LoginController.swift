@@ -33,6 +33,7 @@ class LoginController: UIViewController {
     
     private let emailTextField: UITextField = {
         let tf = Utilities().textField(withPlaceHolder: "Email")
+        tf.keyboardType = .emailAddress
         return tf
     }()
     

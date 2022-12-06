@@ -121,6 +121,8 @@ class MainTabController: UITabBarController {
         
         viewControllers = [nav1, nav2, nav3, nav4, nav5] //一発目に表示されるviewcontrollerがfeedなのは特にどっかで指定したわけではなく、ここで一番左にnav1があるからというだけの理由だった
         viewControllers![2].tabBarItem.isEnabled = false
+        
+        tabBar.tintColor = .picksetRed
     }
     
     func templateNavigationController(image: UIImage?, rootViewController: UIViewController) -> UINavigationController {

@@ -35,7 +35,7 @@ class PostHeader: UICollectionReusableView {
     private lazy var userLabel: UILabel = {
         let label = UILabel()
         label.text = "@venom"
-        label.textColor = .picksetRed
+        label.textColor = .white
         label.font = UIFont.systemFont(ofSize: 12)
         
         let tap = UITapGestureRecognizer(target: self, action: #selector(handleUsernameTapped))
@@ -111,7 +111,12 @@ class PostHeader: UICollectionReusableView {
         
         filterBar.delegate = self
         
-        backgroundColor = .lightGray.withAlphaComponent(0.5)
+//        backgroundColor = .lightGray.withAlphaComponent(0.5)
+        let gradient = CAGradientLayer()
+        gradient.colors = [UIColor.picksetRed.cgColor, UIColor.white.cgColor]
+        gradient.locations = [0, 1] //to 0.1 とかだとグラデーションが上の方で完結してしまう
+        layer.addSublayer(gradient)
+        gradient.frame = frame
         
         addSubview(containerView)
         containerView.anchor(top: topAnchor, left: leftAnchor, right: rightAnchor, height: 108)

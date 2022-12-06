@@ -18,22 +18,22 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         
-        // Override point for customization after application launch.
-        if #available(iOS 15.0, *) {
-            // disable UINavigation bar transparent
-            let navigationBarAppearance = UINavigationBarAppearance()
-            navigationBarAppearance.configureWithDefaultBackground()
-            UINavigationBar.appearance().standardAppearance = navigationBarAppearance
-            UINavigationBar.appearance().compactAppearance = navigationBarAppearance
-            UINavigationBar.appearance().scrollEdgeAppearance = navigationBarAppearance
-        }
-        if #available(iOS 15.0, *) {
-            // disable UITab bar transparent
-            let tabBarAppearance: UITabBarAppearance = UITabBarAppearance()
-            tabBarAppearance.configureWithDefaultBackground()
-            UITabBar.appearance().scrollEdgeAppearance = tabBarAppearance
-            UITabBar.appearance().standardAppearance = tabBarAppearance
-        }
+//        // Override point for customization after application launch.
+//        if #available(iOS 15.0, *) {
+//            // disable UINavigation bar transparent
+//            let navigationBarAppearance = UINavigationBarAppearance()
+//            navigationBarAppearance.configureWithDefaultBackground()
+//            UINavigationBar.appearance().standardAppearance = navigationBarAppearance
+//            UINavigationBar.appearance().compactAppearance = navigationBarAppearance
+//            UINavigationBar.appearance().scrollEdgeAppearance = navigationBarAppearance
+//        }
+//        if #available(iOS 15.0, *) {
+//            // disable UITab bar transparent
+//            let tabBarAppearance: UITabBarAppearance = UITabBarAppearance()
+//            tabBarAppearance.configureWithDefaultBackground()
+//            UITabBar.appearance().scrollEdgeAppearance = tabBarAppearance
+//            UITabBar.appearance().standardAppearance = tabBarAppearance
+//        } この上のいろいろなコメントアウト部分ない方が良い説出てる今
         
 //        let backButtonBackgroundImage = UIImage(systemName: "arrow.backward")
 //        let barAppearance =

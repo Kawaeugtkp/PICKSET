@@ -73,6 +73,8 @@ class ProfileController: UICollectionViewController {
         fetchopinions()
         fetchUserStats()
         navigationController?.navigationBar.tintColor = .white
+        let backBarButton = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
+        navigationItem.backBarButtonItem = backBarButton
     }
     
     // MARK: - API

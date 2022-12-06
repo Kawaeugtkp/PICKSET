@@ -67,6 +67,17 @@ class PostController: UICollectionViewController {
         super.viewDidLoad()
         configureCollectionView()
         fetchOpinions()
+        navigationController?.navigationBar.isHidden = true
+        navigationController?.navigationBar.barStyle = .black
+        navigationController?.navigationBar.tintColor = .black
+//        navigationController?.navigationBar.isHidden
+        let backBarButton = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
+        navigationItem.backBarButtonItem = backBarButton
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        navigationController?.navigationBar.isHidden = true
     }
     
     // MARK: - API
