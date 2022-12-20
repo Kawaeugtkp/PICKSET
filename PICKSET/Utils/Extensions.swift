@@ -7,6 +7,18 @@
 
 import UIKit
 
+extension UIButton {
+    func setAttributedTitle(firstPart: String, secondPart: String) {
+        let atts: [NSAttributedString.Key: Any] = [.foregroundColor: UIColor.black, .font: UIFont.systemFont(ofSize: 16)]
+        let attributedTitle = NSMutableAttributedString(string: "\(firstPart)  ", attributes: atts)
+        
+        let boldAtts: [NSAttributedString.Key: Any] = [.foregroundColor: UIColor.black, .font: UIFont.boldSystemFont(ofSize: 16)]
+        attributedTitle.append(NSAttributedString(string: secondPart, attributes: boldAtts))
+        
+        setAttributedTitle(attributedTitle, for: .normal)
+    }
+}
+
 extension UIView {
     func anchor(top: NSLayoutYAxisAnchor? = nil,
                 left: NSLayoutXAxisAnchor? = nil,
@@ -74,6 +86,11 @@ extension UIView {
     func setDimensions(width: CGFloat, height: CGFloat) {
         translatesAutoresizingMaskIntoConstraints = false
         widthAnchor.constraint(equalToConstant: width).isActive = true
+        heightAnchor.constraint(equalToConstant: height).isActive = true
+    }
+    
+    func setHeight(_ height: CGFloat) {
+        translatesAutoresizingMaskIntoConstraints = false
         heightAnchor.constraint(equalToConstant: height).isActive = true
     }
     

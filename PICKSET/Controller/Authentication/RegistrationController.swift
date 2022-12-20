@@ -8,9 +8,11 @@
 import UIKit
 import Firebase
 
-class ResistrationController: UIViewController {
+class RegistrationController: UIViewController {
     
     //MARK: - Properties
+    
+    private var viewModel = RegistrationViewModel()
     
     private let imagePicker = UIImagePickerController()
     private var profileImage: UIImage?
@@ -18,18 +20,18 @@ class ResistrationController: UIViewController {
     private let PlusPhotoButton: UIButton = {
         let button = UIButton(type: .system)
         button.setImage(UIImage(named: "plus_photo"), for: .normal)
-        button.tintColor = .white //tintcolorは例えばこのplus_photoなら元の画像は線とかが水色だけどこのコードの設定で白にできる
+        button.tintColor = .picksetRed //tintcolorは例えばこのplus_photoなら元の画像は線とかが水色だけどこのコードの設定で白にできる
         button.addTarget(self, action: #selector(handleAddProfilePhoto), for: .touchUpInside)
         return button
     }()
     
     private lazy var emailContainerView: UIView = {
-        let view = Utilities().inputContainerView(withImage: UIImage(named: "ic_mail_outline_white_2x-1")!, textField: emailTextField)
+        let view = Utilities().inputContainerView(textField: emailTextField)
         return view
     }()
     
     private lazy var passwordContainerView: UIView = {
-        let view = Utilities().inputContainerView(withImage: UIImage(named: "ic_lock_outline_white_2x")!, textField: passwordTextField)
+        let view = Utilities().inputContainerView(textField: passwordTextField)
         return view
     }()
     
@@ -75,7 +77,7 @@ class ResistrationController: UIViewController {
         let button = UIButton(type: .system)
         button.setTitle("Sign Up", for: .normal)
         button.setTitleColor(.white, for: .normal)
-        button.backgroundColor = .picksetRed
+        button.backgroundColor = .picksetRed.withAlphaComponent(0.5)
         button.heightAnchor.constraint(equalToConstant: 50).isActive = true
         button.layer.cornerRadius = 5
         button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 20)
@@ -88,6 +90,7 @@ class ResistrationController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         configureUI()
+        configureNotificationObservers()
     }
     
     override func didReceiveMemoryWarning() {
@@ -120,29 +123,32 @@ class ResistrationController: UIViewController {
         
         let credentials = AuthCredentials(email: email, password: password, fullname: fullname, username: username, profileImage: profileImage)
         
-        if email != "" && password != "" && fullname != "" && username != "" {
-            AuthService.shared.registerUser(credentials: credentials) { (error, ref) in
-                guard let window = UIApplication.shared.windows.first(where: { $0.isKeyWindow }) else { return } //ここは意味わからなくていい。多分
-                guard let tab = window.rootViewController as? MainTabController else { return }
-                tab.authenticateUserAndConfigureUI()
+        AuthService.shared.registerUser(credentials: credentials) { (error, ref) in
+            guard let window = UIApplication.shared.windows.first(where: { $0.isKeyWindow }) else { return } //ここは意味わからなくていい。多分
+            guard let tab = window.rootViewController as? MainTabController else { return }
+            tab.authenticateUserAndConfigureUI()
 
-                self.dismiss(animated: true, completion: nil)
-            }
-        } else if email == "" {
-            alert(title: "エラー", message: "メールアドレスを入力してください", actiontitle: "OK")
-        } else if password == "" {
-            alert(title: "エラー", message: "パスワードを入力してください", actiontitle: "OK")
-        } else if fullname == "" {
-            alert(title: "エラー", message: "名前を入力してください", actiontitle: "OK")
-        } else {
-            alert(title: "エラー", message: "ユーザーネームを入力してください", actiontitle: "OK")
+            self.dismiss(animated: true, completion: nil)
         }
+    }
+    
+    @objc func textDidChange(sender: UITextField) {
+        if sender == emailTextField {
+            viewModel.email = sender.text
+        } else if sender == passwordTextField {
+            viewModel.password = sender.text
+        } else if sender == fullnameTextField {
+            viewModel.fullname = sender.text
+        } else {
+            viewModel.username = sender.text
+        }
+        updateForm()
     }
     
     //MARK: - Helpers
     
     func configureUI() {
-        view.backgroundColor = .lightGray
+        view.backgroundColor = .white
         
         imagePicker.delegate = self
         imagePicker.allowsEditing = true
@@ -167,7 +173,7 @@ class ResistrationController: UIViewController {
     }
 }
 
-extension ResistrationController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+extension RegistrationController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         guard let profileimage = info[.editedImage] as? UIImage else { return }
@@ -177,11 +183,28 @@ extension ResistrationController: UIImagePickerControllerDelegate, UINavigationC
         PlusPhotoButton.layer.masksToBounds = true //これで多分、その角を丸くしたlayerに選択した画像を当てはめるのかどうかを決めさせている。だからtrueにすることで丸くなる
         PlusPhotoButton.imageView?.contentMode = .scaleAspectFill
         PlusPhotoButton.imageView?.clipsToBounds = true
-        PlusPhotoButton.layer.borderColor = UIColor.white.cgColor
+        PlusPhotoButton.layer.borderColor = UIColor.picksetRed.cgColor
         PlusPhotoButton.layer.borderWidth = 3
         
         self.PlusPhotoButton.setImage(profileimage.withRenderingMode(.alwaysOriginal), for: .normal)
         
         dismiss(animated: true, completion: nil) //これでplusphotobutton押した後に"choose"と"cancel"を押す場面がいずれ出てくるけれども、それを押すことができるようになる
     } //allow us to access the selected media item whether it's a picture or a video
+    
+    func configureNotificationObservers() {
+        emailTextField.addTarget(self, action: #selector(textDidChange), for: .editingChanged)
+        passwordTextField.addTarget(self, action: #selector(textDidChange), for: .editingChanged)
+        fullnameTextField.addTarget(self, action: #selector(textDidChange), for: .editingChanged)
+        usernameTextField.addTarget(self, action: #selector(textDidChange), for: .editingChanged)
+    }
+}
+
+// MARK: - FormViewModel
+
+extension RegistrationController: formViewModel {
+    func updateForm() {
+        registrationButton.backgroundColor = viewModel.buttonBackgroundColor
+        registrationButton.setTitleColor(viewModel.buttonTitleColor, for: .normal)
+        registrationButton.isEnabled = viewModel.formIsValid
+    }
 }

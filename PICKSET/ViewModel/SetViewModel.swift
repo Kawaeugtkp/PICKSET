@@ -16,7 +16,7 @@ struct SetViewModel {
     }
     
     var cellTintColor: UIColor {
-        return set.didSelect ? .picksetRed : .picksetRed.withAlphaComponent(0.2)
+        return set.didSelect ? .picksetRed : .white
     }
     
     var percentageString: NSAttributedString? {

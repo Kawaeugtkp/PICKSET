@@ -121,11 +121,11 @@ class ProfileHeader: UICollectionReusableView {
         
         filterBar.delegate = self
 
-        addSubview(containerView)
-        containerView.anchor(top: topAnchor, left: leftAnchor, right: rightAnchor, height: 108)
+//        addSubview(containerView)
+//        containerView.anchor(top: topAnchor, left: leftAnchor, right: rightAnchor, height: 108)
         
         addSubview(profileImageView)
-        profileImageView.anchor(top: containerView.bottomAnchor, paddingTop: -35)
+        profileImageView.anchor(top: topAnchor, paddingTop: -10)
         profileImageView.centerX(inView: self)
         profileImageView.setDimensions(width: 100, height: 100)
         profileImageView.layer.cornerRadius  = 100 / 2

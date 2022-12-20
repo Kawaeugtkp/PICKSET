@@ -56,8 +56,11 @@ class ProfileController: UICollectionViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationController?.navigationBar.barStyle = .black
+        navigationController?.navigationBar.isHidden = false
+
+        navigationController?.setNavigationBarHidden(false, animated: true) 
  //インストラクターの人のcomplete版でも通常時から白くなっていてこの設定が効いているように見えたから何が正しいかよくわからない
-        navigationController?.navigationBar.isHidden = true
+//        navigationController?.navigationBar.isHidden = true
         //navigationController?.setNavigationBarHidden(true, animated: true) //これがviewwillappearでなければいけない理由がいまいちわからない。viewdidloadでもしっかり消えていた。
         
         //インストラクターversionはnavigationController?.navigationbar.isHidden = true
@@ -72,7 +75,7 @@ class ProfileController: UICollectionViewController {
         fetchLikedTweets()
         fetchopinions()
         fetchUserStats()
-        navigationController?.navigationBar.tintColor = .white
+        navigationController?.navigationBar.tintColor = .black
         let backBarButton = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
         navigationItem.backBarButtonItem = backBarButton
     }
@@ -116,8 +119,8 @@ class ProfileController: UICollectionViewController {
     
     func configureCollectionView() {
         collectionView.backgroundColor = .white
-        collectionView.contentInsetAdjustmentBehavior = .never //safeareaをどうするかというもので、neverにしているからheaderの時刻とかの部分もしっかり背景色に染められているということだと思う
-        navigationController?.navigationBar.isTranslucent = true
+//        collectionView.contentInsetAdjustmentBehavior = .never //safeareaをどうするかというもので、neverにしているからheaderの時刻とかの部分もしっかり背景色に染められているということだと思う
+//        navigationController?.navigationBar.isTranslucent = true
         
         collectionView.register(TweetCell.self, forCellWithReuseIdentifier: reuseIdentifier)
         collectionView.register(ProfileHeader.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: headerIdentifier)
@@ -125,26 +128,26 @@ class ProfileController: UICollectionViewController {
         guard let tabHeight = tabBarController?.tabBar.frame.height else { return }
         collectionView.contentInset.bottom = tabHeight
     }
-    func templateNavigationController(viewController:UIViewController) -> UINavigationController {
-
-    let nav = UINavigationController(rootViewController: viewController)
-
-
-    let appearance = UINavigationBarAppearance()
-
-    appearance.configureWithOpaqueBackground()
-
-    appearance.backgroundColor = .white
-
-    nav.navigationBar.standardAppearance = appearance;
-
-    nav.navigationBar.scrollEdgeAppearance = nav.navigationBar.standardAppearance
-
-
-
-    return nav
-
-    }
+//    func templateNavigationController(viewController:UIViewController) -> UINavigationController {
+//
+//    let nav = UINavigationController(rootViewController: viewController)
+//
+//
+//    let appearance = UINavigationBarAppearance()
+//
+//    appearance.configureWithOpaqueBackground()
+//
+//    appearance.backgroundColor = .white
+//
+//    nav.navigationBar.standardAppearance = appearance;
+//
+//    nav.navigationBar.scrollEdgeAppearance = nav.navigationBar.standardAppearance
+//
+//
+//
+//    return nav
+//
+//    }
 }
 
 // MARK: - UICollectionViewDataSource

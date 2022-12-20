@@ -78,8 +78,10 @@ class SetCell: UICollectionViewCell {
         super.init(frame: frame)
         
         layer.cornerRadius = 5
+        layer.borderWidth = 1.0
+        layer.borderColor = UIColor.picksetRed.cgColor
         
-        backgroundColor = .picksetRed.withAlphaComponent(0.2)
+        backgroundColor = .white
 
         addSubview(pickButton)
         pickButton.anchor(top: topAnchor, right: rightAnchor, paddingTop: 5, paddingRight: 3)

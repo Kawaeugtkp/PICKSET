@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		2593F25093E880EC406F8062 /* Pods_PICKSET.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9E23AA4F50BF0F8AF1F2B51B /* Pods_PICKSET.framework */; };
+		E401D95C29405E9300C0CB8D /* AuthenticationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E401D95B29405E9200C0CB8D /* AuthenticationViewModel.swift */; };
+		E401D95E294063F900C0CB8D /* CustomTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = E401D95D294063F900C0CB8D /* CustomTextField.swift */; };
 		E4820F1528C8E8FB006F69C8 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4820F1428C8E8FB006F69C8 /* User.swift */; };
 		E4820F1728C8E92E006F69C8 /* OPs.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4820F1628C8E92E006F69C8 /* OPs.swift */; };
 		E4820F1928C8E957006F69C8 /* Notification.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4820F1828C8E957006F69C8 /* Notification.swift */; };
@@ -30,7 +32,7 @@
 		E4820F3C28C952C4006F69C8 /* NotificationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4820F3B28C952C4006F69C8 /* NotificationViewModel.swift */; };
 		E4820F3E28C952DC006F69C8 /* EditProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4820F3D28C952DC006F69C8 /* EditProfileViewModel.swift */; };
 		E4820F4128C95316006F69C8 /* LoginController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4820F4028C95316006F69C8 /* LoginController.swift */; };
-		E4820F4328C9532E006F69C8 /* ResistrationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4820F4228C9532E006F69C8 /* ResistrationController.swift */; };
+		E4820F4328C9532E006F69C8 /* RegistrationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4820F4228C9532E006F69C8 /* RegistrationController.swift */; };
 		E4820F4528C95351006F69C8 /* MainTabController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4820F4428C95351006F69C8 /* MainTabController.swift */; };
 		E4820F4728C9536D006F69C8 /* FeedController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4820F4628C9536D006F69C8 /* FeedController.swift */; };
 		E4820F4928C95395006F69C8 /* SearchController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4820F4828C95395006F69C8 /* SearchController.swift */; };
@@ -82,6 +84,8 @@
 		3450A4CDA0F94FA57BB78954 /* Pods-PICKSET.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PICKSET.release.xcconfig"; path = "Target Support Files/Pods-PICKSET/Pods-PICKSET.release.xcconfig"; sourceTree = "<group>"; };
 		9E23AA4F50BF0F8AF1F2B51B /* Pods_PICKSET.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_PICKSET.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		BD379DC343563F4A31176753 /* Pods-PICKSET.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PICKSET.debug.xcconfig"; path = "Target Support Files/Pods-PICKSET/Pods-PICKSET.debug.xcconfig"; sourceTree = "<group>"; };
+		E401D95B29405E9200C0CB8D /* AuthenticationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationViewModel.swift; sourceTree = "<group>"; };
+		E401D95D294063F900C0CB8D /* CustomTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTextField.swift; sourceTree = "<group>"; };
 		E4820F1428C8E8FB006F69C8 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		E4820F1628C8E92E006F69C8 /* OPs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OPs.swift; sourceTree = "<group>"; };
 		E4820F1828C8E957006F69C8 /* Notification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Notification.swift; sourceTree = "<group>"; };
@@ -104,7 +108,7 @@
 		E4820F3B28C952C4006F69C8 /* NotificationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationViewModel.swift; sourceTree = "<group>"; };
 		E4820F3D28C952DC006F69C8 /* EditProfileViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProfileViewModel.swift; sourceTree = "<group>"; };
 		E4820F4028C95316006F69C8 /* LoginController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginController.swift; sourceTree = "<group>"; };
-		E4820F4228C9532E006F69C8 /* ResistrationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResistrationController.swift; sourceTree = "<group>"; };
+		E4820F4228C9532E006F69C8 /* RegistrationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationController.swift; sourceTree = "<group>"; };
 		E4820F4428C95351006F69C8 /* MainTabController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabController.swift; sourceTree = "<group>"; };
 		E4820F4628C9536D006F69C8 /* FeedController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedController.swift; sourceTree = "<group>"; };
 		E4820F4828C95395006F69C8 /* SearchController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchController.swift; sourceTree = "<group>"; };
@@ -212,7 +216,7 @@
 			isa = PBXGroup;
 			children = (
 				E4820F4028C95316006F69C8 /* LoginController.swift */,
-				E4820F4228C9532E006F69C8 /* ResistrationController.swift */,
+				E4820F4228C9532E006F69C8 /* RegistrationController.swift */,
 			);
 			path = Authentication;
 			sourceTree = "<group>";
@@ -286,6 +290,7 @@
 				E49C90B928D73DFB00A2B8E5 /* SetFilterView.swift */,
 				E49C90BD28D87D6E00A2B8E5 /* SetTextView.swift */,
 				E4B4506C28F8D59D001364FA /* categoryTextField.swift */,
+				E401D95D294063F900C0CB8D /* CustomTextField.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -301,6 +306,7 @@
 				E4820F3D28C952DC006F69C8 /* EditProfileViewModel.swift */,
 				E49C90AF28D5A06C00A2B8E5 /* PostHeaderViewModel.swift */,
 				E49C90C328DEB2CF00A2B8E5 /* SetViewModel.swift */,
+				E401D95B29405E9200C0CB8D /* AuthenticationViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -483,6 +489,7 @@
 				E4820F3228C8EB86006F69C8 /* NotificationCell.swift in Sources */,
 				E49C90B028D5A06D00A2B8E5 /* PostHeaderViewModel.swift in Sources */,
 				E4820F3628C9525E006F69C8 /* ProfileHeaderViewModel.swift in Sources */,
+				E401D95C29405E9300C0CB8D /* AuthenticationViewModel.swift in Sources */,
 				E4820F4D28C953F1006F69C8 /* NotificationsController.swift in Sources */,
 				E49C90BA28D73DFC00A2B8E5 /* SetFilterView.swift in Sources */,
 				E49C90C028D8D95A00A2B8E5 /* Sets.swift in Sources */,
@@ -512,10 +519,11 @@
 				E49C90B228D5A0E600A2B8E5 /* Post.swift in Sources */,
 				E4820F2A28C8EB0C006F69C8 /* TweetCell.swift in Sources */,
 				E4ADE8F82903BB6F0005258E /* SaveController.swift in Sources */,
+				E401D95E294063F900C0CB8D /* CustomTextField.swift in Sources */,
 				E49C90BE28D87D6E00A2B8E5 /* SetTextView.swift in Sources */,
 				E49C90B828D73CA000A2B8E5 /* SetCell.swift in Sources */,
 				E4F2EF0B28C8DBB10095E435 /* PICKSET.xcdatamodeld in Sources */,
-				E4820F4328C9532E006F69C8 /* ResistrationController.swift in Sources */,
+				E4820F4328C9532E006F69C8 /* RegistrationController.swift in Sources */,
 				E49C90A028CA939D00A2B8E5 /* UploadController.swift in Sources */,
 				E49C90A628CAA57800A2B8E5 /* TextViewSeries2.swift in Sources */,
 				E4820F1E28C8E9B1006F69C8 /* ProfileFilterView.swift in Sources */,

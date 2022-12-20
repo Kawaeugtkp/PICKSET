@@ -40,11 +40,8 @@ struct ProfileHeaderViewModel {
         
         if user.isCurrentUser {
             return "Edit Profile"
-        }else if user.isFollowed {
-            return "Following"
-        } else {
-            return "Follow" //なぜかfollowingの時だけデフォがfollowみたいな表示になっているのが悲しい
         }
+        return user.isFollowed ? "Following" : "Follow"
     }
     
     init(user: User) {

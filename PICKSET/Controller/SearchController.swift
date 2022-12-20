@@ -98,7 +98,7 @@ class SearchController: UITableViewController {
     func configureSearchController() {
         searchController.searchResultsUpdater = self
         searchController.obscuresBackgroundDuringPresentation = false //これをtrueにするとtableviewのコンテンツの部分が検索中に暗くなる
-        searchController.hidesNavigationBarDuringPresentation = false //これをtrueにするとExploreという文字が検索中に消える
+        searchController.hidesNavigationBarDuringPresentation = false //これをtrueにするとnavigationitemのタイトルが検索中に消える
         searchController.searchBar.placeholder = "Search"
         navigationItem.searchController = searchController
         definesPresentationContext = false //これの違いがいまいちわからない
@@ -130,7 +130,7 @@ extension SearchController {
 
 extension SearchController: UISearchResultsUpdating {
     func updateSearchResults(for searchController: UISearchController) {
-        guard let searchText = searchController.searchBar.text else { return } //何が入力されても小文字にするみたい
+        guard let searchText = searchController.searchBar.text?.lowercased() else { return } //何が入力されても小文字にするみたい
         
         filterUsers = users.filter({ $0.username.contains(searchText) || $0.fullname.contains(searchText) })
         
