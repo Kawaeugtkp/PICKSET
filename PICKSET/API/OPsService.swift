@@ -165,28 +165,47 @@ struct OPsService {
         }
     }
     
-//    func likeOpinion(opinion: OPs, completion: @escaping(DatabaseCompletion)) {
-//        guard let uid = Auth.auth().currentUser?.uid else { return }
-//
-//        print("DEBUG: In databaseside didlike is \(opinion.didLike)")
-//
-//        let likes = opinion.didLike ? opinion.likes - 1 : opinion.likes + 1
-//        REF_OPS.child(opinion.opsID).child("likes").setValue(likes)
-//
-//        if opinion.didLike {
-//            // unlike opinion
-//            REF_USER_LIKES.child(uid).child(opinion.opsID).removeValue { (err, ref) in
-//                REF_OPINION_LIKES.child(opinion.opsID).removeValue(completionBlock: completion)
-//            }
-//        } else {
-//            // like opinion
-//            REF_USER_LIKES.child(uid).updateChildValues([opinion.opsID: 1]) { (err, ref) in
-//                REF_OPINION_LIKES.child(opinion.opsID).updateChildValues([uid: 1]) { (err, ref) in
-//                    
-//                }
-//            }
-//        }
-//    }
+    func likeOpinion(opinion: OPs, postID: String, completion: @escaping(DatabaseCompletion)) {
+        guard let uid = Auth.auth().currentUser?.uid else { return }
+
+        let likes = opinion.didLike ? opinion.likes - 1 : opinion.likes + 1
+        REF_OPS.child(opinion.opsID).child("likes").setValue(likes)
+
+        if uid == opinion.user.uid {
+            if opinion.didLike {
+                REF_USER_LIKES.child(uid).child(opinion.opsID).removeValue { (err, ref) in
+                    REF_USER_POSTLIKES.child(uid).child(postID).child(opinion.opsID).removeValue(completionBlock: completion)
+                }
+            } else {
+                REF_USER_LIKES.child(uid).updateChildValues([opinion.opsID: 1]) { (err, ref) in
+                    REF_USER_POSTLIKES.child(uid).child(postID).updateChildValues([opinion.opsID: 1], withCompletionBlock: completion)
+                }
+            }
+        } else {
+            if opinion.didLike {
+                // unlike opinion
+                REF_USER_LIKES.child(uid).child(opinion.opsID).observeSingleEvent(of: .value) { snapshot in
+                    guard let notificationID = snapshot.value as? String else { return }
+                    NotificationService.shared.removeNotification(toUser: opinion.user, notificationID: notificationID) { (err, ref) in
+                        REF_USER_LIKES.child(uid).child(opinion.opsID).removeValue { (err, ref) in
+                            REF_USER_POSTLIKES.child(uid).child(postID).child(opinion.opsID).removeValue { (err, ref) in
+                                REF_OPINION_LIKES.child(opinion.opsID).child(uid).removeValue(completionBlock: completion)
+                            }
+                        }
+                    }
+                }
+            } else {
+                // like opinion
+                NotificationService.shared.UploadNotification(type: .like, toUser: opinion.user, tweetID: opinion.opsID) { notificationID in
+                    REF_USER_LIKES.child(uid).updateChildValues([opinion.opsID: notificationID]) { (err, ref) in
+                        REF_USER_POSTLIKES.child(uid).child(postID).updateChildValues([opinion.opsID: 1]) { (err, ref) in
+                            REF_OPINION_LIKES.child(opinion.opsID).updateChildValues([uid: Int(NSDate().timeIntervalSince1970)], withCompletionBlock: completion)
+                        }
+                    }
+                }
+            }
+        }
+    }
     
     func checkIfUserLikedTweet(_ tweet: OPs, completion: @escaping(Bool) -> Void) {
         guard let uid = Auth.auth().currentUser?.uid else { return }

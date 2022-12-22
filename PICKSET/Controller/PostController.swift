@@ -376,62 +376,64 @@ extension PostController: TweetCellDelegate {
         SetService.shared.fetchSetID(post: post) { setID in
             SetService.shared.checkIfOpinionUserSelectThisSet(post: self.post, setID: setID, uid: tweet.user.uid) { match in
                 if match {
-                    guard let uid = Auth.auth().currentUser?.uid else { return }
-
-                    OPsService.shared.fetchOpinion(withOpinionID: tweet.opsID) { opinion in
-//                        print("DEBUG: didlike is \(cell.tweet?.didLike)")
+//                    guard let uid = Auth.auth().currentUser?.uid else { return }
+                    guard let postID = tweet.postID else { return }
+                    
+                    OPsService.shared.likeOpinion(opinion: tweet, postID: postID) { err, ref in
                         cell.tweet?.didLike.toggle()
                         let likes = tweet.didLike ? tweet.likes - 1 : tweet.likes + 1
                         cell.tweet?.likes = likes
-                        
-                        REF_OPS.child(opinion.opsID).child("likes").setValue(likes)
-                        
-                        guard let postID = opinion.postID else { return }
-                        
-                        if uid == tweet.user.uid {
-                            if tweet.didLike {
-                                REF_USER_LIKES.child(uid).child(opinion.opsID).removeValue { (err, ref) in
-                                    REF_USER_POSTLIKES.child(uid).child(postID).child(opinion.opsID).removeValue()
-                                }
-                            } else {
-                                REF_USER_LIKES.child(uid).updateChildValues([opinion.opsID: 1]) { (err, ref) in
-                                    REF_USER_POSTLIKES.child(uid).child(postID).updateChildValues([opinion.opsID: 1])
-                                }
-                            }
-                        } else {
-                            if tweet.didLike {
-                                // unlike opinion
-                                REF_USER_LIKES.child(uid).child(opinion.opsID).observeSingleEvent(of: .value) { snapshot in
-                                    guard let notificationID = snapshot.value as? String else { return }
-                                    NotificationService.shared.removeNotification(toUser: tweet.user, notificationID: notificationID) { (err, ref) in
-                                        REF_USER_LIKES.child(uid).child(opinion.opsID).removeValue { (err, ref) in
-                                            REF_USER_POSTLIKES.child(uid).child(postID).child(opinion.opsID).removeValue { (err, ref) in
-                                                REF_OPINION_LIKES.child(opinion.opsID).child(uid).removeValue()
-                                            }
-                                        }
-                                    }
-                                }
-                            } else {
-                                // like opinion
-                                NotificationService.shared.UploadNotification(type: .like, toUser: tweet.user, tweetID: tweet.opsID) { notificationID in
-                                    REF_USER_LIKES.child(uid).updateChildValues([opinion.opsID: notificationID]) { (err, ref) in
-                                        REF_USER_POSTLIKES.child(uid).child(postID).updateChildValues([opinion.opsID: 1]) { (err, ref) in
-                                            REF_OPINION_LIKES.child(opinion.opsID).updateChildValues([uid: Int(NSDate().timeIntervalSince1970)])
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                        
                         cell.likeImageView.isHidden = true
                         cell.postLabel.isHidden = true
-                                            
-//                        // only upload notification if tweetis being liked
-//                        guard !tweet.didLike else { return }
-//                        NotificationService.shared.UploadNotification(type: .like, toUser: tweet.user, tweetID: tweet.opsID) { notificationID in
-//                            REF_USER_LIKES.child(uid).child(opinion.opsID).setValue(notificationID)
-//                        }
                     }
+                    
+//                    cell.tweet?.didLike.toggle()
+//                    let likes = tweet.didLike ? tweet.likes - 1 : tweet.likes + 1
+//                    cell.tweet?.likes = likes
+//
+//                    REF_OPS.child(tweet.opsID).child("likes").setValue(likes)
+                    
+//                    if uid == tweet.user.uid {
+//                        if tweet.didLike {
+//                            REF_USER_LIKES.child(uid).child(tweet.opsID).removeValue { (err, ref) in
+//                                REF_USER_POSTLIKES.child(uid).child(postID).child(tweet.opsID).removeValue()
+//                            }
+//                        } else {
+//                            REF_USER_LIKES.child(uid).updateChildValues([tweet.opsID: 1]) { (err, ref) in
+//                                REF_USER_POSTLIKES.child(uid).child(postID).updateChildValues([tweet.opsID: 1])
+//                            }
+//                        }
+//                    } else {
+//                        if tweet.didLike {
+//                            // unlike opinion
+//                            REF_USER_LIKES.child(uid).child(tweet.opsID).observeSingleEvent(of: .value) { snapshot in
+//                                guard let notificationID = snapshot.value as? String else { return }
+//                                NotificationService.shared.removeNotification(toUser: tweet.user, notificationID: notificationID) { (err, ref) in
+//                                    REF_USER_LIKES.child(uid).child(tweet.opsID).removeValue { (err, ref) in
+//                                        REF_USER_POSTLIKES.child(uid).child(postID).child(tweet.opsID).removeValue { (err, ref) in
+//                                            REF_OPINION_LIKES.child(tweet.opsID).child(uid).removeValue()
+//                                        }
+//                                    }
+//                                }
+//                            }
+//                        } else {
+//                            // like opinion
+//                            NotificationService.shared.UploadNotification(type: .like, toUser: tweet.user, tweetID: tweet.opsID) { notificationID in
+//                                REF_USER_LIKES.child(uid).updateChildValues([tweet.opsID: notificationID]) { (err, ref) in
+//                                    REF_USER_POSTLIKES.child(uid).child(postID).updateChildValues([tweet.opsID: 1]) { (err, ref) in
+//                                        REF_OPINION_LIKES.child(tweet.opsID).updateChildValues([uid: Int(NSDate().timeIntervalSince1970)])
+//                                    }
+//                                }
+//                            }
+//                        }
+//                    }
+                    
+                    //                        // only upload notification if tweetis being liked
+                    //                        guard !tweet.didLike else { return }
+                    //                        NotificationService.shared.UploadNotification(type: .like, toUser: tweet.user, tweetID: tweet.opsID) { notificationID in
+                    //                            REF_USER_LIKES.child(uid).child(opinion.opsID).setValue(notificationID)
+                    //                        }
+                    
                 } else {
                     self.alert(title: "セットが選択されていません", message: "コメントやいいねは選択したセットの中でのみ可能です", actiontitle: "OK")
                 }
