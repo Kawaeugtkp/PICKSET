@@ -35,7 +35,7 @@ class PostHeader: UICollectionReusableView {
     private lazy var userLabel: UILabel = {
         let label = UILabel()
         label.text = "@venom"
-        label.textColor = .white
+        label.textColor = .picksetRed
         label.font = UIFont.systemFont(ofSize: 12)
         
         let tap = UITapGestureRecognizer(target: self, action: #selector(handleUsernameTapped))
@@ -49,7 +49,7 @@ class PostHeader: UICollectionReusableView {
     private let topicLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.boldSystemFont(ofSize: 20)
-        label.textColor = .white
+//        label.textColor = .white
         label.text = "おはようApr 3, 2014 — しかし、複数のアプリ間で特定のユーザーを追跡可能で、ユーザーが自由にIDを変更する ... で、AndroidOSの拡張機能をアプリ形式で提供するものです。"
         label.layer.borderColor = UIColor.white.cgColor
         label.numberOfLines = 0
@@ -85,9 +85,9 @@ class PostHeader: UICollectionReusableView {
     private lazy var descriptionButton: UIButton = {
         let button = UIButton(type: .system)
         button.setTitle("トピックの説明を見る", for: .normal)
-        button.layer.borderColor = UIColor.white.cgColor
+        button.layer.borderColor = UIColor.picksetRed.cgColor
         button.layer.borderWidth = 1.25
-        button.setTitleColor(.white, for: .normal)
+        button.setTitleColor(.picksetRed, for: .normal)
         button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 14)
         button.addTarget(self, action: #selector(handleShowDescription), for: .touchUpInside)
         return button
@@ -112,17 +112,17 @@ class PostHeader: UICollectionReusableView {
         filterBar.delegate = self
         
 //        backgroundColor = .lightGray.withAlphaComponent(0.5)
-        let gradient = CAGradientLayer()
-        gradient.colors = [UIColor.picksetRed.cgColor, UIColor.white.cgColor]
-        gradient.locations = [0, 1] //to 0.1 とかだとグラデーションが上の方で完結してしまう
-        layer.addSublayer(gradient)
-        gradient.frame = frame
+//        let gradient = CAGradientLayer()
+//        gradient.colors = [UIColor.picksetRed.cgColor, UIColor.white.cgColor]
+//        gradient.locations = [0, 1] //to 0.1 とかだとグラデーションが上の方で完結してしまう
+//        layer.addSublayer(gradient)
+//        gradient.frame = frame
         
-        addSubview(containerView)
-        containerView.anchor(top: topAnchor, left: leftAnchor, right: rightAnchor, height: 108)
+//        addSubview(containerView)
+//        containerView.anchor(top: topAnchor, left: leftAnchor, right: rightAnchor, height: 108)
         
         addSubview(userLabel)
-        userLabel.anchor(top: topAnchor, paddingTop: 60)
+        userLabel.anchor(top: topAnchor, paddingTop: -10)
         userLabel.centerX(inView: self)
         
         addSubview(topicLabel)

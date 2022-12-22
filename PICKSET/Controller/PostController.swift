@@ -55,9 +55,13 @@ class PostController: UICollectionViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        navigationController?.navigationBar.barStyle = .black
+//        navigationController?.navigationBar.barStyle = .black
+        navigationController?.navigationBar.barStyle = .default
+        navigationController?.navigationBar.isHidden = false
+
+        navigationController?.setNavigationBarHidden(false, animated: true)
  //インストラクターの人のcomplete版でも通常時から白くなっていてこの設定が効いているように見えたから何が正しいかよくわからない
-        navigationController?.navigationBar.isHidden = true
+//        navigationController?.navigationBar.isHidden = true
         //navigationController?.setNavigationBarHidden(true, animated: true) //これがviewwillappearでなければいけない理由がいまいちわからない。viewdidloadでもしっかり消えていた。
         
         //インストラクターversionはnavigationController?.navigationbar.isHidden = true
@@ -67,8 +71,9 @@ class PostController: UICollectionViewController {
         super.viewDidLoad()
         configureCollectionView()
         fetchOpinions()
-        navigationController?.navigationBar.isHidden = true
-        navigationController?.navigationBar.barStyle = .black
+//        configureNavigationBar()
+//        navigationController?.navigationBar.isHidden = true
+//        navigationController?.navigationBar.barStyle = .default
         navigationController?.navigationBar.tintColor = .black
 //        navigationController?.navigationBar.isHidden
         let backBarButton = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
@@ -77,7 +82,8 @@ class PostController: UICollectionViewController {
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        navigationController?.navigationBar.isHidden = true
+
+//        navigationController?.navigationBar.isHidden = true
     }
     
     // MARK: - API
@@ -125,8 +131,8 @@ class PostController: UICollectionViewController {
 //        view.addSubview(recommendLabel)
 //        recommendLabel.centerX(inView: view)
 //        recommendLabel.anchor(bottom: view.safeAreaLayoutGuide.bottomAnchor, paddingBottom: 100)
-        collectionView.contentInsetAdjustmentBehavior = .never
-        navigationController?.navigationBar.isTranslucent = true
+//        collectionView.contentInsetAdjustmentBehavior = .never
+//        navigationController?.navigationBar.isTranslucent = true
         collectionView.register(PostHeader.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: headerIdentifier)
         collectionView.register(TweetCell.self, forCellWithReuseIdentifier: reuseIdentifier)
 //        let selectedIndexPath = IndexPath(row: 0, section: 0)
@@ -135,26 +141,47 @@ class PostController: UICollectionViewController {
     
 
     
-    func templateNavigationController(viewController:UIViewController) -> UINavigationController {
-
-    let nav = UINavigationController(rootViewController: viewController)
-
-
-    let appearance = UINavigationBarAppearance()
-
-    appearance.configureWithOpaqueBackground()
-
-    appearance.backgroundColor = .white
-
-    nav.navigationBar.standardAppearance = appearance;
-
-    nav.navigationBar.scrollEdgeAppearance = nav.navigationBar.standardAppearance
-
-
-
-    return nav
-
-    }
+//    func templateNavigationController(viewController:UIViewController) -> UINavigationController {
+//
+//    let nav = UINavigationController(rootViewController: viewController)
+//
+//
+//    let appearance = UINavigationBarAppearance()
+//
+//    appearance.configureWithOpaqueBackground()
+//
+//    appearance.backgroundColor = .white
+//
+//    nav.navigationBar.standardAppearance = appearance;
+//
+//    nav.navigationBar.scrollEdgeAppearance = nav.navigationBar.standardAppearance
+//
+//
+//
+//    return nav
+//
+//    }
+    
+//    func configureNavigationBar() {
+////        navigationController?.navigationBar.barTintColor = .blue
+//        navigationController?.navigationBar.barStyle = .black
+//        self.navigationController?.navigationBar.isTranslucent = false //これにselfつけたら一瞬だけ白くなった
+//        if #available(iOS 15.0, *) {
+//            let appearance = UINavigationBarAppearance()
+//            appearance.configureWithOpaqueBackground()
+//            appearance.backgroundColor = .white
+//            navigationController?.navigationBar.standardAppearance = appearance
+//            navigationController?.navigationBar.scrollEdgeAppearance = appearance //この拡張をしないと反映されないのクソだな
+//        } else {
+//            navigationController?.navigationBar.barTintColor = .white
+//        }
+//
+//        navigationItem.title = "Edit Profile"
+//        navigationController?.navigationBar.tintColor = .white
+//
+////        navigationItem.rightBarButtonItem?.isEnabled = false //これで押しても動かなくなるし、ボタンの色自体もなんか押せない感出しているから、ツイートの方にも実装すべき
+////        navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor:UIColor.white]
+//    }
     
     func alert(title:String,message:String,actiontitle:String) {
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
@@ -205,7 +232,7 @@ extension PostController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
         
         let viewModel = PostHeaderViewModel(post: post)
-        let height: CGFloat = viewModel.size(forwidth: view.frame.width).height + 350
+        let height: CGFloat = viewModel.size(forwidth: view.frame.width).height + 290
         return CGSize(width: view.frame.width, height: height)
     }
     

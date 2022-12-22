@@ -123,6 +123,7 @@ extension SearchController {
         let user = inSearchMode ? filterUsers[indexPath.row] : users[indexPath.row]
         let controller = ProfileController(user: user)
         navigationController?.pushViewController(controller, animated: true)
+        tableView.deselectRow(at: indexPath, animated: true)
     }
 }
 

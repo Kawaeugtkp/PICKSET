@@ -55,7 +55,7 @@ class ProfileController: UICollectionViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        navigationController?.navigationBar.barStyle = .black
+        navigationController?.navigationBar.barStyle = .default
         navigationController?.navigationBar.isHidden = false
 
         navigationController?.setNavigationBarHidden(false, animated: true) 
@@ -197,7 +197,7 @@ extension ProfileController: UICollectionViewDelegateFlowLayout { //UICollection
 //        let viewModel = ProfileHeaderViewModel(user: user)
 //        var height = viewModel.size(forwidth: view.frame.width).height
         
-        let height: CGFloat = 350
+        let height: CGFloat = 280
     
         return CGSize(width: view.frame.width, height: height)
     }

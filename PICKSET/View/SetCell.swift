@@ -78,7 +78,7 @@ class SetCell: UICollectionViewCell {
         super.init(frame: frame)
         
         layer.cornerRadius = 5
-        layer.borderWidth = 1.0
+        layer.borderWidth = 3.0
         layer.borderColor = UIColor.picksetRed.cgColor
         
         backgroundColor = .white
