@@ -14,5 +14,5 @@ target 'PICKSET' do
 	pod 'SDWebImage', '~> 5.0'
 	pod 'IQKeyboardManagerSwift'
 	pod 'ActiveLabel'
-
+	pod 'Google-Mobile-Ads-SDK'
 end
