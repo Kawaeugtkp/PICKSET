@@ -167,10 +167,10 @@ struct OPsService {
     
     func likeOpinion(opinion: OPs, postID: String, completion: @escaping(DatabaseCompletion)) {
         guard let uid = Auth.auth().currentUser?.uid else { return }
-
+        
         let likes = opinion.didLike ? opinion.likes - 1 : opinion.likes + 1
         REF_OPS.child(opinion.opsID).child("likes").setValue(likes)
-
+        
         if uid == opinion.user.uid {
             if opinion.didLike {
                 REF_USER_LIKES.child(uid).child(opinion.opsID).removeValue { (err, ref) in
