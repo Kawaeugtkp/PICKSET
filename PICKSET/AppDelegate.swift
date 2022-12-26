@@ -10,6 +10,7 @@ import CoreData
 import FirebaseCore
 import FirebaseAuth
 import IQKeyboardManagerSwift
+import GoogleMobileAds
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -45,6 +46,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 //        let barButtonAppearance =
 //            UIBarButtonItem.appearance(whenContainedInInstancesOf: [LikeUsersController.self])
 //        barButtonAppearance.setBackButtonTitlePositionAdjustment(UIOffset(horizontal: 0, vertical: -5), for: .default)
+        
+        GADMobileAds.sharedInstance().start(completionHandler: nil)
         
         FirebaseApp.configure()
         

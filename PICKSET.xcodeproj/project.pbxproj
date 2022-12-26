@@ -679,6 +679,7 @@
 				DEVELOPMENT_TEAM = 4PM6RASU49;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = PICKSET/Info.plist;
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "写真へのアクセスを許可しますか？";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
@@ -708,6 +709,7 @@
 				DEVELOPMENT_TEAM = 4PM6RASU49;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = PICKSET/Info.plist;
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "写真へのアクセスを許可しますか？";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
