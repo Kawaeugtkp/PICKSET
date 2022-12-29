@@ -10,6 +10,7 @@
 		2593F25093E880EC406F8062 /* Pods_PICKSET.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9E23AA4F50BF0F8AF1F2B51B /* Pods_PICKSET.framework */; };
 		E401D95C29405E9300C0CB8D /* AuthenticationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E401D95B29405E9200C0CB8D /* AuthenticationViewModel.swift */; };
 		E401D95E294063F900C0CB8D /* CustomTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = E401D95D294063F900C0CB8D /* CustomTextField.swift */; };
+		E4368BCD295B133F0000390B /* AdCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4368BCC295B133F0000390B /* AdCell.swift */; };
 		E4820F1528C8E8FB006F69C8 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4820F1428C8E8FB006F69C8 /* User.swift */; };
 		E4820F1728C8E92E006F69C8 /* OPs.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4820F1628C8E92E006F69C8 /* OPs.swift */; };
 		E4820F1928C8E957006F69C8 /* Notification.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4820F1828C8E957006F69C8 /* Notification.swift */; };
@@ -86,6 +87,7 @@
 		BD379DC343563F4A31176753 /* Pods-PICKSET.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PICKSET.debug.xcconfig"; path = "Target Support Files/Pods-PICKSET/Pods-PICKSET.debug.xcconfig"; sourceTree = "<group>"; };
 		E401D95B29405E9200C0CB8D /* AuthenticationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationViewModel.swift; sourceTree = "<group>"; };
 		E401D95D294063F900C0CB8D /* CustomTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTextField.swift; sourceTree = "<group>"; };
+		E4368BCC295B133F0000390B /* AdCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdCell.swift; sourceTree = "<group>"; };
 		E4820F1428C8E8FB006F69C8 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		E4820F1628C8E92E006F69C8 /* OPs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OPs.swift; sourceTree = "<group>"; };
 		E4820F1828C8E957006F69C8 /* Notification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Notification.swift; sourceTree = "<group>"; };
@@ -291,6 +293,7 @@
 				E49C90BD28D87D6E00A2B8E5 /* SetTextView.swift */,
 				E4B4506C28F8D59D001364FA /* categoryTextField.swift */,
 				E401D95D294063F900C0CB8D /* CustomTextField.swift */,
+				E4368BCC295B133F0000390B /* AdCell.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -517,6 +520,7 @@
 				E4820F3428C95239006F69C8 /* TweetViewModel.swift in Sources */,
 				E4820F5B28C954E2006F69C8 /* UserService.swift in Sources */,
 				E49C90B228D5A0E600A2B8E5 /* Post.swift in Sources */,
+				E4368BCD295B133F0000390B /* AdCell.swift in Sources */,
 				E4820F2A28C8EB0C006F69C8 /* TweetCell.swift in Sources */,
 				E4ADE8F82903BB6F0005258E /* SaveController.swift in Sources */,
 				E401D95E294063F900C0CB8D /* CustomTextField.swift in Sources */,

@@ -377,6 +377,7 @@ extension PostController: TweetCellDelegate {
             SetService.shared.checkIfOpinionUserSelectThisSet(post: self.post, setID: setID, uid: tweet.user.uid) { match in
                 if match {
                     guard let postID = tweet.postID else { return }
+                    guard cell.tweet?.didLike != true || cell.tweet?.likes != 0 else { return }
                     
                     OPsService.shared.likeOpinion(opinion: tweet, postID: postID) { err, ref in
                         cell.tweet?.didLike.toggle()

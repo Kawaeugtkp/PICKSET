@@ -106,6 +106,7 @@ PODS:
     - GoogleUtilities/Logger
   - GTMSessionFetcher/Core (3.0.0)
   - IQKeyboardManagerSwift (6.5.10)
+  - JGProgressHUD (2.2)
   - leveldb-library (1.22.1)
   - nanopb (2.30909.0):
     - nanopb/decode (= 2.30909.0)
@@ -113,9 +114,14 @@ PODS:
   - nanopb/decode (2.30909.0)
   - nanopb/encode (2.30909.0)
   - PromisesObjC (2.1.1)
-  - SDWebImage (5.14.2):
-    - SDWebImage/Core (= 5.14.2)
-  - SDWebImage/Core (5.14.2)
+  - PryntTrimmerView (4.0.2)
+  - SDWebImage (5.14.3):
+    - SDWebImage/Core (= 5.14.3)
+  - SDWebImage/Core (5.14.3)
+  - SteviaLayout (4.7.3)
+  - YPImagePicker (5.2.1):
+    - PryntTrimmerView (= 4.0.2)
+    - SteviaLayout (= 4.7.3)
 
 DEPENDENCIES:
   - ActiveLabel
@@ -125,7 +131,9 @@ DEPENDENCIES:
   - Firebase/Storage
   - Google-Mobile-Ads-SDK
   - IQKeyboardManagerSwift
+  - JGProgressHUD
   - SDWebImage (~> 5.0)
+  - YPImagePicker
 
 SPEC REPOS:
   trunk:
@@ -147,10 +155,14 @@ SPEC REPOS:
     - GoogleUtilities
     - GTMSessionFetcher
     - IQKeyboardManagerSwift
+    - JGProgressHUD
     - leveldb-library
     - nanopb
     - PromisesObjC
+    - PryntTrimmerView
     - SDWebImage
+    - SteviaLayout
+    - YPImagePicker
 
 SPEC CHECKSUMS:
   ActiveLabel: 5e3f4de79a1952d4604b845a0610d4776e4b82b3
@@ -171,11 +183,15 @@ SPEC CHECKSUMS:
   GoogleUtilities: bad72cb363809015b1f7f19beb1f1cd23c589f95
   GTMSessionFetcher: c1edebe64e9fb4e8f6415d018edf1fd3eac074a1
   IQKeyboardManagerSwift: 52962c76ab33532f15ad9f3ff4e5715eda5335bb
+  JGProgressHUD: d83d7a981b85d11205e19ff8ad5bb9c40571c847
   leveldb-library: 50c7b45cbd7bf543c81a468fe557a16ae3db8729
   nanopb: b552cce312b6c8484180ef47159bc0f65a1f0431
   PromisesObjC: ab77feca74fa2823e7af4249b8326368e61014cb
-  SDWebImage: b9a731e1d6307f44ca703b3976d18c24ca561e84
+  PryntTrimmerView: 6a43cc90df5d99addeabd33d4ba09b1365322130
+  SDWebImage: 9c36e66c8ce4620b41a7407698dda44211a96764
+  SteviaLayout: c2ecdcff57d44e38fd2f65e54ad52aeae28ca0c4
+  YPImagePicker: f36043210c10b0783034eb1947d6e06e31c461e4
 
-PODFILE CHECKSUM: 42407f5e2b391ffdeb923484a6f3e472a76f47fb
+PODFILE CHECKSUM: 0a4ccf1d019187b89286dcffabdc3be2e0119136
 
 COCOAPODS: 1.11.3

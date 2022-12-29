@@ -225,7 +225,7 @@ struct OPsService {
     
     func uploadOpinion(post: OPs, setID: String, caption: String, type: UploadTweetConfiguration, completion: @escaping(Error?, DatabaseReference) -> Void) {
         guard let uid = Auth.auth().currentUser?.uid else { return }
-        var values = ["uid": uid, "timestamp": Int(NSDate().timeIntervalSince1970), "likes": 0, "replyCount": 0, "caption": caption, "type": 1, "postID": post.opsID, "setID": setID] as [String : Any]
+        var values = ["uid": uid, "timestamp": Int(NSDate().timeIntervalSince1970), "replyCount": 0, "caption": caption, "type": 1, "postID": post.opsID, "setID": setID] as [String : Any]
         
         switch type {
         case .tweet:
@@ -259,37 +259,6 @@ struct OPsService {
             }
         }
     }
-    
-//    func removeOpinions(postID: String, setID: String, completion: @escaping(Error?, DatabaseReference) -> Void) {
-//        print("DEBUG: start removeopinion")
-//        guard let uid = Auth.auth().currentUser?.uid else { return }
-//        REF_POST_OPINIONS.child(postID).child(uid).observe(.childAdded) { snapshot in
-//            print("DEBUG: hyahhou")
-//            let opinionID = snapshot.key
-//            REF_OPINION_REPLIES.child(opinionID).observeSingleEvent(of: .value) { snapshot in
-//                if snapshot.exists() {
-//                    REF_OPINION_REPLIES.child(opinionID).observe(.childAdded) { snapshot in
-//                        print("DEBUG: snapshot key is \(snapshot.key)")
-//                        let replyKey = snapshot.key
-//                        removeReplies(opinionID: opinionID, replyKey: replyKey)
-//                    }
-//                }
-//                print("DEBUG: fuck")
-//                REF_POST_OPINIONS.child(postID).child(uid).child(opinionID).removeValue { (err, ref) in
-//                    print("DEBUG: what")
-//                    REF_OPS.child(opinionID).removeValue { (err, ref) in
-//                        REF_USER_OPS.child(uid).child(opinionID).removeValue { (err, ref) in
-//                            print("DEBUG: Why")
-//                            REF_USER_OPINIONS.child(uid).child(opinionID).removeValue { (err, ref) in
-//                                print("DEBUG: gtfgfgfsgfhgfgfhgf")
-//                                REF_SETUSERS_OPINIONS.child(setID).child(uid).child(opinionID).removeValue(completionBlock: completion)
-//                            }
-//                        }
-//                    }
-//                }
-//            }
-//        }
-//    }
     
     func removeOpinions(postID: String, setID: String, completion: @escaping(Error?, DatabaseReference) -> Void) {
         print("DEBUG: this is called")

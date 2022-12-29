@@ -60,7 +60,8 @@ class FeedController: UICollectionViewController {
     }
     
     @objc func handleSetting() {
-        print("DEBUG: nice!")
+//        let controller = TopController(collectionViewLayout: UICollectionViewFlowLayout())
+//        navigationController?.pushViewController(controller, animated: true)
     }
     
     // MARK: - API
@@ -270,3 +271,13 @@ extension FeedController: TweetCellDelegate {
         navigationController?.pushViewController(controller, animated: true)
     }
 }
+
+//extension FeedController: GADNativeAdLoaderDelegate {
+//    func adLoader(_ adLoader: GADAdLoader, didReceive nativeAd: GADNativeAd) {
+//        <#code#>
+//    }
+//    
+//    func adLoader(_ adLoader: GADAdLoader, didFailToReceiveAdWithError error: Error) {
+//        <#code#>
+//    }
+//}

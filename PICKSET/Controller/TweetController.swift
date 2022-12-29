@@ -248,6 +248,8 @@ extension TweetController: TweetHeaderDelegate {
         guard let opinion = header.tweet else { return }
         if picked {
             guard let postID = opinion.postID else { return }
+            guard header.tweet?.didLike != true || header.tweet?.likes != 0 else { return }
+
             OPsService.shared.likeOpinion(opinion: opinion, postID: postID) { err, ref in
                 header.tweet?.didLike.toggle()
                 let likes = opinion.didLike ? opinion.likes - 1 : opinion.likes + 1
@@ -371,6 +373,8 @@ extension TweetController: TweetCellDelegate {
                 SetService.shared.checkIfOpinionUserSelectThisSet(post: post, setID: setID, uid: opinion.user.uid) { match in
                     if match {
                         guard let postID = opinion.postID else { return }
+                        guard cell.tweet?.didLike != true || cell.tweet?.likes != 0 else { return }
+
                         OPsService.shared.likeOpinion(opinion: opinion, postID: postID) { err, ref in
                             cell.tweet?.didLike.toggle()
                             let likes = opinion.didLike ? opinion.likes - 1 : opinion.likes + 1

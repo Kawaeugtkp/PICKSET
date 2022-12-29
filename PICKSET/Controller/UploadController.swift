@@ -91,7 +91,15 @@ class UploadController: UIViewController {
         return button
     }()
     
-    private var cursorPosition = 0
+//    private let PlusPhotoButton: UIButton = {
+//        let button = UIButton(type: .system)
+//        button.setImage(UIImage(named: "plus_photo"), for: .normal)
+//        button.tintColor = .picksetRed //tintcolorは例えばこのplus_photoなら元の画像は線とかが水色だけどこのコードの設定で白にできる
+//        button.addTarget(self, action: #selector(handleAddProfilePhoto), for: .touchUpInside)
+//        return button
+//    }()
+    
+//    private var cursorPosition = 0
     
     // MARK: - Lifecycle
     

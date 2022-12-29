@@ -6,6 +6,29 @@
 //
 
 import UIKit
+import JGProgressHUD
+
+extension UIViewController {
+    static let hud = JGProgressHUD(style: .dark) //staticつけたら使いたいときにインスタンスにする必要がないらしい。
+    
+    func configureGradientLayer() {
+        let gradient = CAGradientLayer()
+        gradient.colors = [UIColor.systemPurple.cgColor, UIColor.systemBlue.cgColor]
+        gradient.locations = [0, 1] //to 0.1 とかだとグラデーションが上の方で完結してしまう
+        view.layer.addSublayer(gradient)
+        gradient.frame = view.frame
+    }
+    
+    func showLoader(_ show: Bool) {
+        view.endEditing(true)
+        
+        if show {
+            UIViewController.hud.show(in: view)
+        } else {
+            UIViewController.hud.dismiss()
+        }
+    }
+}
 
 extension UIButton {
     func setAttributedTitle(firstPart: String, secondPart: String) {
