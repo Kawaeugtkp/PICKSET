@@ -20,4 +20,5 @@ target 'PICKSET' do
 	pod 'JGProgressHUD'
 	pod 'ActiveLabel'
 	pod 'YPImagePicker'
+	pod 'ImageViewer'
 end

@@ -105,6 +105,7 @@ PODS:
   - GoogleUtilities/UserDefaults (7.10.0):
     - GoogleUtilities/Logger
   - GTMSessionFetcher/Core (3.0.0)
+  - ImageViewer (6.0.0)
   - IQKeyboardManagerSwift (6.5.10)
   - JGProgressHUD (2.2)
   - leveldb-library (1.22.1)
@@ -130,6 +131,7 @@ DEPENDENCIES:
   - Firebase/Database
   - Firebase/Storage
   - Google-Mobile-Ads-SDK
+  - ImageViewer
   - IQKeyboardManagerSwift
   - JGProgressHUD
   - SDWebImage (~> 5.0)
@@ -154,6 +156,7 @@ SPEC REPOS:
     - GoogleUserMessagingPlatform
     - GoogleUtilities
     - GTMSessionFetcher
+    - ImageViewer
     - IQKeyboardManagerSwift
     - JGProgressHUD
     - leveldb-library
@@ -182,6 +185,7 @@ SPEC CHECKSUMS:
   GoogleUserMessagingPlatform: 5f8b30daf181805317b6b985bb51c1ff3beca054
   GoogleUtilities: bad72cb363809015b1f7f19beb1f1cd23c589f95
   GTMSessionFetcher: c1edebe64e9fb4e8f6415d018edf1fd3eac074a1
+  ImageViewer: cb88ef1c0ba19161bc10702adfdcebc116a7a59d
   IQKeyboardManagerSwift: 52962c76ab33532f15ad9f3ff4e5715eda5335bb
   JGProgressHUD: d83d7a981b85d11205e19ff8ad5bb9c40571c847
   leveldb-library: 50c7b45cbd7bf543c81a468fe557a16ae3db8729
@@ -192,6 +196,6 @@ SPEC CHECKSUMS:
   SteviaLayout: c2ecdcff57d44e38fd2f65e54ad52aeae28ca0c4
   YPImagePicker: f36043210c10b0783034eb1947d6e06e31c461e4
 
-PODFILE CHECKSUM: 0a4ccf1d019187b89286dcffabdc3be2e0119136
+PODFILE CHECKSUM: 15282027e8748bbc40b5a94158654f6d28c0778f
 
 COCOAPODS: 1.11.3
