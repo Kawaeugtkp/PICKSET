@@ -82,7 +82,7 @@ class SaveController: UICollectionViewController {
         
         collectionView.backgroundColor = .white //これいらない説ある
         
-        collectionView.register(TweetCell.self, forCellWithReuseIdentifier: reuseIdentifier)
+        collectionView.register(OPsCell.self, forCellWithReuseIdentifier: reuseIdentifier)
         
         let refreshControl = UIRefreshControl()
         refreshControl.addTarget(self, action: #selector(handleRefresh), for: .valueChanged)
@@ -125,8 +125,8 @@ extension SaveController {
     }
     
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath) as! TweetCell
-        cell.tweet = ops[indexPath.row]
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath) as! OPsCell
+        cell.ops = ops[indexPath.row]
         cell.likeButton.tintColor = .lightGray
         cell.commentButton.isHidden = true
         cell.delegate = self //ここで無事にfeedcontrollerに引き継がれた
@@ -163,6 +163,9 @@ extension SaveController: UICollectionViewDelegateFlowLayout { //UICollectionVie
         if tweet.isReply {
             height += 20
         }
+        if tweet.postImageUrl != nil {
+            height += 170
+        }
         collectionView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 70, right: 0)
         return CGSize(width: view.frame.width, height: height + 60) //view.frame.widthはviewの横幅、まあスマホの画面の横幅って認識で良いっぽい。で、ここのheightを十分にとらないと、cellの中身がぎゅっと凝縮された感じになってしまって意図した配置にならないのでそこは注意しなければならない
     }
@@ -171,24 +174,28 @@ extension SaveController: UICollectionViewDelegateFlowLayout { //UICollectionVie
 // MARK: - TweetCellDelegate
 
 extension SaveController: TweetCellDelegate {
-    func handleReplyLabelTapped(_ cell: TweetCell) {
-        guard let basedOpinionID = cell.tweet?.basedOpinionID else { return }
+    func handlePostImageTapped(cell: OPsCell, imageView: UIImageView) {
+        
+    }
+    
+    func handleReplyLabelTapped(_ cell: OPsCell) {
+        guard let basedOpinionID = cell.ops?.basedOpinionID else { return }
         OPsService.shared.fetchOP(withOPsID: basedOpinionID) { opinion in
             let controller = TweetController(opinion: opinion)
             self.navigationController?.pushViewController(controller, animated: true)
         }
     }
     
-    func handleMarked(_ cell: TweetCell) {
-        guard let opsID = cell.tweet?.opsID else { return }
+    func handleMarked(_ cell: OPsCell) {
+        guard let opsID = cell.ops?.opsID else { return }
         OPsService.shared.uploadSaves(opsID: opsID) { (err, ref) in
             self.alert(title: "マークリストに追加しました", message: "", actiontitle: "OK")
         }
     }
     
-    func handlePostLabelTapped(_ cell: TweetCell) {
-        guard let postID = cell.tweet?.postID else { return }
-        guard let user = cell.tweet?.user else { return }
+    func handlePostLabelTapped(_ cell: OPsCell) {
+        guard let postID = cell.ops?.postID else { return }
+        guard let user = cell.ops?.user else { return }
         OPsService.shared.fetchOP(withOPsID: postID) { post in
             let controller = PostController(post: post, user: user)
             self.navigationController?.pushViewController(controller, animated: true)
@@ -202,16 +209,16 @@ extension SaveController: TweetCellDelegate {
         }
     }
     
-    func handleLikeTapped(_ cell: TweetCell) {
+    func handleLikeTapped(_ cell: OPsCell) {
 
     }
     
-    func handleReplyTapped(_ cell: TweetCell) {
+    func handleReplyTapped(_ cell: OPsCell) {
 
     }
     
-    func handleProfileImageTapped(_ cell: TweetCell) {
-        guard let user = cell.tweet?.user else { return }
+    func handleProfileImageTapped(_ cell: OPsCell) {
+        guard let user = cell.ops?.user else { return }
         let controller = ProfileController(user: user) //ここをUICollectionViewLayout()にしていたら全然cellがprofilecontrollerで出てこなかった。ほんとに注意。UICollectionViewFlowLayoutにしないと具体的なビューの設定が反映されないからセルの表示のしようがない。
         navigationController?.pushViewController(controller, animated: true)
     }

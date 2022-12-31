@@ -8,6 +8,7 @@
 import UIKit
 import SDWebImage
 import GoogleMobileAds
+import ImageViewer
 
 private let reuseIdentifier = "TweetCell"
 
@@ -19,6 +20,8 @@ class FeedController: UICollectionViewController {
     private var tweets = [OPs]() {
         didSet { collectionView.reloadData() } //この文を追加することで、ちゃんと欲しいツイート一覧がtweetsに格納されてから、後の処理が走るようになる。もしこの文がなかったら、例えばnumberOfItemsInSectionのツイートの数を返す関数なんかは、viewを読み込んだ瞬間のtweetsの数を返したりする。それはもちろん0だから所望の値が得られないよ。細かいことをいうと、viewを読み込んだ瞬間はtweetsの数は0でその後にtweetsの正しい数が得られるよね。その状態でもう一回reloadしたらtweetsには正確な値が入っているからここでちゃんと所望の値が得られる
     }
+    
+    private var postImageView = UIImageView()
     
     var user: User? {
         didSet {
@@ -122,7 +125,7 @@ class FeedController: UICollectionViewController {
         
         collectionView.backgroundColor = .white //これいらない説ある
         
-        collectionView.register(TweetCell.self, forCellWithReuseIdentifier: reuseIdentifier)
+        collectionView.register(OPsCell.self, forCellWithReuseIdentifier: reuseIdentifier)
         
         let imageView = UIImageView(image: UIImage(named: "grobal"))
         imageView.contentMode = .scaleAspectFit
@@ -179,10 +182,11 @@ extension FeedController {
     }
     
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath) as! TweetCell
-        cell.tweet = tweets[indexPath.row]
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath) as! OPsCell
+        cell.ops = tweets[indexPath.row]
         cell.likeButton.tintColor = .lightGray
         cell.commentButton.isHidden = true
+        postImageView = cell.postImageView
 //        cell.underBlankView.isHidden = true
         cell.delegate = self //ここで無事にfeedcontrollerに引き継がれた
         cell.likeButton.isHidden = true
@@ -217,6 +221,9 @@ extension FeedController: UICollectionViewDelegateFlowLayout { //UICollectionVie
         if tweet.isReply {
             height += 20
         }
+        if tweet.postImageUrl != nil {
+            height += 170
+        }
         collectionView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 70, right: 0) //おそらく、cellがいっぱい並んだviewのことをcollectionviewと言っているから、そのエッジにこういう書き方で空白を設定できる
         return CGSize(width: view.frame.width, height: height + 60) //view.frame.widthはviewの横幅、まあスマホの画面の横幅って認識で良いっぽい。で、ここのheightを十分にとらないと、cellの中身がぎゅっと凝縮された感じになってしまって意図した配置にならないのでそこは注意しなければならない
     }
@@ -225,8 +232,13 @@ extension FeedController: UICollectionViewDelegateFlowLayout { //UICollectionVie
 // MARK: - TweetCellDelegate
 
 extension FeedController: TweetCellDelegate {
-    func handleReplyLabelTapped(_ cell: TweetCell) {
-        guard let basedOpinionID = cell.tweet?.basedOpinionID else { return }
+    func handlePostImageTapped(cell: OPsCell, imageView: UIImageView) {
+//        let controller = GalleryViewController(startIndex: 0, itemsDataSource: self, configuration: [.deleteButtonMode(.none), .thumbnailsButtonMode(.none)])
+//        presentImageGallery(controller)
+    }
+    
+    func handleReplyLabelTapped(_ cell: OPsCell) {
+        guard let basedOpinionID = cell.ops?.basedOpinionID else { return }
         print("DEBUG: gbgrfggbbbb")
         OPsService.shared.fetchOP(withOPsID: basedOpinionID) { opinion in
             let controller = TweetController(opinion: opinion)
@@ -234,16 +246,16 @@ extension FeedController: TweetCellDelegate {
         }
     }
     
-    func handleMarked(_ cell: TweetCell) {
-        guard let opsID = cell.tweet?.opsID else { return }
+    func handleMarked(_ cell: OPsCell) {
+        guard let opsID = cell.ops?.opsID else { return }
         OPsService.shared.uploadSaves(opsID: opsID) { (err, ref) in
             self.alert(title: "マークリストに追加しました", message: "", actiontitle: "OK")
         }
     }
     
-    func handlePostLabelTapped(_ cell: TweetCell) {
-        guard let postID = cell.tweet?.postID else { return }
-        guard let user = cell.tweet?.user else { return }
+    func handlePostLabelTapped(_ cell: OPsCell) {
+        guard let postID = cell.ops?.postID else { return }
+        guard let user = cell.ops?.user else { return }
         OPsService.shared.fetchOP(withOPsID: postID) { post in
             let controller = PostController(post: post, user: user)
             self.navigationController?.pushViewController(controller, animated: true)
@@ -257,16 +269,16 @@ extension FeedController: TweetCellDelegate {
         }
     }
     
-    func handleLikeTapped(_ cell: TweetCell) {
+    func handleLikeTapped(_ cell: OPsCell) {
 
     }
     
-    func handleReplyTapped(_ cell: TweetCell) {
+    func handleReplyTapped(_ cell: OPsCell) {
 
     }
     
-    func handleProfileImageTapped(_ cell: TweetCell) {
-        guard let user = cell.tweet?.user else { return }
+    func handleProfileImageTapped(_ cell: OPsCell) {
+        guard let user = cell.ops?.user else { return }
         let controller = ProfileController(user: user) //ここをUICollectionViewLayout()にしていたら全然cellがprofilecontrollerで出てこなかった。ほんとに注意。UICollectionViewFlowLayoutにしないと具体的なビューの設定が反映されないからセルの表示のしようがない。
         navigationController?.pushViewController(controller, animated: true)
     }
@@ -274,10 +286,30 @@ extension FeedController: TweetCellDelegate {
 
 //extension FeedController: GADNativeAdLoaderDelegate {
 //    func adLoader(_ adLoader: GADAdLoader, didReceive nativeAd: GADNativeAd) {
-//        <#code#>
+//
 //    }
 //    
 //    func adLoader(_ adLoader: GADAdLoader, didFailToReceiveAdWithError error: Error) {
-//        <#code#>
+//
 //    }
+//}
+
+// MARK: - GalleryItemsDataSource
+
+extension FeedController: GalleryItemsDataSource {
+    func itemCount() -> Int {
+        return 1
+    }
+
+    func provideGalleryItem(_ index: Int) -> GalleryItem {
+        return GalleryItem.image { $0(self.postImageView.image!) }
+    }
+}
+
+// MARK: -
+
+//extension FeedController: GalleryDisplacedViewsDataSource {
+//    func provideDisplacementItem(atIndex index: Int) -> DisplaceableView? {
+//            return postImageView
+//        }
 //}

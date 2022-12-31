@@ -71,11 +71,11 @@ class NotificationCell: UITableViewCell {
         stack.centerY(inView: self, leftAnchor: leftAnchor, paddingLeft: 12)
         stack.anchor(right: rightAnchor, paddingRight: 12)
         
-        addSubview(followButton) //こっちはbuttonだったからなのか、contentviewをつけなくてもしっかりdelegteが機能している
-        followButton.centerY(inView: self)
-        followButton.setDimensions(width: 92, height: 32)
-        followButton.layer.cornerRadius = 32 / 2
-        followButton.anchor(right: rightAnchor, paddingRight: 12)
+//        addSubview(followButton) //こっちはbuttonだったからなのか、contentviewをつけなくてもしっかりdelegteが機能している
+//        followButton.centerY(inView: self)
+//        followButton.setDimensions(width: 92, height: 32)
+//        followButton.layer.cornerRadius = 32 / 2
+//        followButton.anchor(right: rightAnchor, paddingRight: 12)
     }
     
     required init?(coder: NSCoder) {

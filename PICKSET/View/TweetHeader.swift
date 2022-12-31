@@ -109,6 +109,21 @@ class TweetHeader: UICollectionReusableView { //よくわからないがheader�
         return iv
     }()
     
+    lazy var postImageView: UIImageView = {
+        let iv = UIImageView()
+        iv.contentMode = .scaleAspectFill
+        iv.clipsToBounds = true
+        iv.setDimensions(width: 240, height: 160)
+        iv.layer.cornerRadius = 10
+        iv.backgroundColor = .lightGray
+        
+        let tap = UITapGestureRecognizer(target: self, action: #selector(handlePostImageTapped))
+        
+        iv.addGestureRecognizer(tap)
+        iv.isUserInteractionEnabled = true
+        return iv
+    }()
+    
     private let fullnameLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.boldSystemFont(ofSize: 14)
@@ -233,28 +248,50 @@ class TweetHeader: UICollectionReusableView { //よくわからないがheader�
         addSubview(stack)
         stack.anchor(top: setView.bottomAnchor, left: leftAnchor, paddingTop: 16, paddingLeft: 16)
         
-        addSubview(captionLabel)
-        captionLabel.anchor(top: stack.bottomAnchor, left: leftAnchor, right: rightAnchor, paddingTop: 12, paddingLeft: 16, paddingRight: 16)
-        
-        addSubview(dateLabel)
-        dateLabel.anchor(top: captionLabel.bottomAnchor, left: leftAnchor, paddingTop: 20, paddingLeft: 16)
-        
         addSubview(optionButton)
         optionButton.centerY(inView: stack) //これで、Y軸の中心をstackと同じにしている
         optionButton.anchor(right: rightAnchor, paddingRight: 8)
         
-        addSubview(statsView)
-        statsView.anchor(top: dateLabel.bottomAnchor, left: leftAnchor, right: rightAnchor, paddingTop: 12, height: 40) //ここでしっかりviewの高さを設定しないといけない
+        addSubview(captionLabel)
+        captionLabel.anchor(top: stack.bottomAnchor, left: leftAnchor, right: rightAnchor, paddingTop: 12, paddingLeft: 16, paddingRight: 16)
+        
+        addSubview(postImageView)
+        postImageView.centerX(inView: self)
+        postImageView.anchor(top: captionLabel.bottomAnchor, paddingTop: 10)
+        
+        postImageView.isHidden = true
+        
+        addSubview(headerDivider)
+        headerDivider.anchor(left: leftAnchor, bottom: bottomAnchor, right: rightAnchor, paddingBottom: 5, height: 2.0)
         
         let actionStack = UIStackView(arrangedSubviews: [commentButton, likeButton])
         actionStack.spacing = 72
         
         addSubview(actionStack)
         actionStack.centerX(inView: self)
-        actionStack.anchor(top: statsView.bottomAnchor, paddingTop: 16)
+        actionStack.anchor(bottom: headerDivider.topAnchor, paddingBottom: 10)
         
-        addSubview(headerDivider)
-        headerDivider.anchor(top: actionStack.bottomAnchor, left: leftAnchor, right: rightAnchor, paddingTop: 10, height: 2.0)
+        addSubview(statsView)
+        statsView.anchor(left: leftAnchor,bottom: actionStack.topAnchor, right: rightAnchor, paddingBottom: 16, height: 40)
+        
+        addSubview(dateLabel)
+        dateLabel.anchor(left: leftAnchor, bottom: statsView.topAnchor, paddingLeft: 16, paddingBottom: 12)
+        
+//        addSubview(dateLabel)
+//        dateLabel.anchor(top: captionLabel.bottomAnchor, left: leftAnchor, paddingTop: 20, paddingLeft: 16)
+
+//        addSubview(statsView)
+//        statsView.anchor(top: dateLabel.bottomAnchor, left: leftAnchor, right: rightAnchor, paddingTop: 12, height: 40) //ここでしっかりviewの高さを設定しないといけない
+//
+//        let actionStack = UIStackView(arrangedSubviews: [commentButton, likeButton])
+//        actionStack.spacing = 72
+//
+//        addSubview(actionStack)
+//        actionStack.centerX(inView: self)
+//        actionStack.anchor(top: statsView.bottomAnchor, paddingTop: 16)
+//
+//        addSubview(headerDivider)
+//        headerDivider.anchor(top: actionStack.bottomAnchor, left: leftAnchor, right: rightAnchor, paddingTop: 10, height: 2.0)
         
         //あくまで個人的な意見だけど、anchorを設定する時は変動するものを基準にして上下に設定すべきだと思う。今回ならcaptionlabelが変動するものだからそれを基準に上と下に分けてanchor設定すべき
         
@@ -343,6 +380,10 @@ class TweetHeader: UICollectionReusableView { //よくわからないがheader�
         delegate?.handleReplyLabelTapped()
     }
     
+    @objc func handlePostImageTapped() {
+        
+    }
+    
     // MARK: - Helpers
     
     func createButton(withImageName imageName: String) -> UIButton {
@@ -371,7 +412,11 @@ class TweetHeader: UICollectionReusableView { //よくわからないがheader�
         replyLabel.text = viewModel.replyText
         
         setLabel.text = onSet?.setText
-        print("DEBUG: \(captionLabel.intrinsicContentSize.height)")
+        
+        postImageView.sd_setImage(with: viewModel.postImageUrl)
+        if tweet.postImageUrl != nil {
+            postImageView.isHidden = false
+        }
     }
     
     func configureMentionHandler() {

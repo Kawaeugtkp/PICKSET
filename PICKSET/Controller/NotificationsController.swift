@@ -101,12 +101,25 @@ extension NotificationsController {
 
 extension NotificationsController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
         let notification = notifications[indexPath.row]
-        guard let tweetID = notification.tweetID else { return }
+//        guard let tweetID = notification.tweetID else { return }
         
-        OPsService.shared.fetchOP(withOPsID: tweetID) { tweet in
-            let controller = TweetController(opinion: tweet)
-            self.navigationController?.pushViewController(controller, animated: true)
+//        OPsService.shared.fetchOP(withOPsID: tweetID) { tweet in
+//            let controller = TweetController(opinion: tweet)
+//            self.navigationController?.pushViewController(controller, animated: true)
+//        }
+        
+        if let opsID = notification.tweetID {
+            OPsService.shared.fetchOP(withOPsID: opsID) { tweet in
+                let controller = TweetController(opinion: tweet)
+                self.navigationController?.pushViewController(controller, animated: true)
+            }
+        } else {
+            UserService.shared.fetchUser(uid: notification.user.uid) { user in
+                let controller = ProfileController(user: user)
+                self.navigationController?.pushViewController(controller, animated: true)
+            }
         }
     }
 }

@@ -27,7 +27,7 @@ class ProfileController: UICollectionViewController {
 //        didSet { collectionView.reloadData() } //この文を追加することで、ちゃんと欲しいツイート一覧がtweetsに格納されてから、後の処理が走るようになる。もしこの文がなかったら、例えばnumberOfItemsInSectionのツイートの数を返す関数なんかは、viewを読み込んだ瞬間のtweetsの数を返したりする。それはもちろん0だから所望の値が得られないよ。細かいことをいうと、viewを読み込んだ瞬間はtweetsの数は0でその後にtweetsの正しい数が得られるよね。その状態でもう一回reloadしたらtweetsには正確な値が入っているからここでちゃんと所望の値が得られる
 //    }
     
-    private var likedTweets = [OPs]()
+    private var likedOpinions = [OPs]()
     private var opinions = [OPs]()
     
     private var currentDataSource: [OPs] {
@@ -38,7 +38,7 @@ class ProfileController: UICollectionViewController {
         case .opinions:
             return opinions
         case .likes:
-            return likedTweets
+            return likedOpinions
         }
     }
     
@@ -84,20 +84,26 @@ class ProfileController: UICollectionViewController {
     
     func fetchposts() {
         OPsService.shared.fetchPosts(forUser: user) { posts in
-            self.posts = posts
+            self.posts = posts.sorted(by: { post1, post2 in
+                return post1.timestamp > post2.timestamp
+            })
             self.collectionView.reloadData() //これいるかいまいちわからなかった。一旦なくても機能していたっぽい
         }
     }
     
     func fetchLikedTweets() {
         OPsService.shared.fetchLikes(forUse: user) { opinions in
-            self.likedTweets = opinions //この後にreloaddataをする必要はない。なぜなら、この配列が表示されるのはlikesがタップされた後であり、その時点から配列を取ってきてっていう処理を開始するから。
+            self.likedOpinions = opinions.sorted(by: { opinion1, opinion2 in
+                return opinion1.timestamp > opinion2.timestamp
+            }) //この後にreloaddataをする必要はない。なぜなら、この配列が表示されるのはlikesがタップされた後であり、その時点から配列を取ってきてっていう処理を開始するから。
         }
     }
     
     func fetchopinions() {
         OPsService.shared.fetchOpinions(forUser: user) { opinions in
-            self.opinions = opinions
+            self.opinions = opinions.sorted(by: { opinion1, opinion2 in
+                return opinion1.timestamp > opinion2.timestamp
+            })
         }
     }
     
@@ -122,7 +128,7 @@ class ProfileController: UICollectionViewController {
 //        collectionView.contentInsetAdjustmentBehavior = .never //safeareaをどうするかというもので、neverにしているからheaderの時刻とかの部分もしっかり背景色に染められているということだと思う
 //        navigationController?.navigationBar.isTranslucent = true
         
-        collectionView.register(TweetCell.self, forCellWithReuseIdentifier: reuseIdentifier)
+        collectionView.register(OPsCell.self, forCellWithReuseIdentifier: reuseIdentifier)
         collectionView.register(ProfileHeader.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: headerIdentifier)
         
         guard let tabHeight = tabBarController?.tabBar.frame.height else { return }
@@ -158,8 +164,8 @@ extension ProfileController {
     }
     
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath) as! TweetCell
-        cell.tweet = currentDataSource[indexPath.row]
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath) as! OPsCell
+        cell.ops = currentDataSource[indexPath.row]
         cell.commentButton.isHidden = true
         cell.likeButton.isHidden = true
         return cell
@@ -212,6 +218,9 @@ extension ProfileController: UICollectionViewDelegateFlowLayout { //UICollection
         }
         if tweet.isReply {
             height += 20
+        }
+        if tweet.postImageUrl != nil {
+            height += 170
         }
         collectionView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 70, right: 0) //機能していない。わかっている範囲ではこことprofile
         return CGSize(width: view.frame.width, height: height + 60) //view.frame.widthはviewの横幅、まあスマホの画面の横幅って認識で良いっぽい。で、ここのheightを十分にとらないと、cellの中身がぎゅっと凝縮された感じになってしまって意図した配置にならないのでそこは注意しなければならない

@@ -122,6 +122,13 @@ extension UIView {
         anchor(top: view.topAnchor, left: view.leftAnchor,
                bottom: view.bottomAnchor, right: view.rightAnchor)
     }
+    
+    func fillSuperview() {
+        translatesAutoresizingMaskIntoConstraints = false
+        guard let view = superview else { return }
+        anchor(top: view.topAnchor, left: view.leftAnchor,
+               bottom: view.bottomAnchor, right: view.rightAnchor)
+    }
 }
 
 // MARK: - UIColor

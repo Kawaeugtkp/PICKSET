@@ -140,3 +140,9 @@ extension SearchController: UISearchResultsUpdating {
 //        }) これを簡略化したやつらしい
     }
 }
+
+//extension SearchController: UISearchBarDelegate {
+//    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+//        <#code#>
+//    }
+//}

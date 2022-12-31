@@ -15,6 +15,10 @@ class UploadTweetController: UIViewController, UITextViewDelegate {
     
     //MARK: - Properties
     
+    private let imagePicker = UIImagePickerController()
+    
+    private var postImage: UIImage?
+    
     private let setID: String
     
     private let post: OPs
@@ -57,6 +61,21 @@ class UploadTweetController: UIViewController, UITextViewDelegate {
         return label
     }()
     
+    lazy var addPhotoImageView: UIImageView = {
+        let iv = UIImageView()
+        iv.image = UIImage(systemName: "photo")
+        iv.contentMode = .scaleAspectFit
+        iv.clipsToBounds = true
+        iv.backgroundColor = .lightGray
+        iv.tintColor = .white
+        
+        let tap = UITapGestureRecognizer(target: self, action: #selector(selectPostPhoto))
+        iv.isUserInteractionEnabled = true
+        iv.addGestureRecognizer(tap)
+        
+        return iv
+    }()
+    
     private let captionTextView = InputTextView()
 
     
@@ -92,7 +111,9 @@ class UploadTweetController: UIViewController, UITextViewDelegate {
             alert(title: "投稿内容が入力されていません", message: "", actiontitle: "OK")
             return
         } else {
-            OPsService.shared.uploadOpinion(post: post, setID: setID, caption: caption, type: config) { (error, ref) in
+            showLoader(true)
+            OPsService.shared.uploadOpinion(post: post, setID: setID, caption: caption, type: config, postImage: postImage) { (error, ref) in
+                self.showLoader(false)
                 if let error = error {
                     print("DEBUG: Failed to upload tweet with error \(error.localizedDescription)")
                     return
@@ -106,6 +127,14 @@ class UploadTweetController: UIViewController, UITextViewDelegate {
                 self.dismiss(animated: true, completion: nil)
             }
         }
+    }
+    
+    @objc func selectPostPhoto() {
+        imagePicker.delegate = self
+        imagePicker.sourceType = UIImagePickerController.SourceType.photoLibrary
+        //編集を可能にする
+        imagePicker.allowsEditing = true
+        present(imagePicker, animated: true, completion: nil)
     }
 
     //MARK: - API
@@ -157,6 +186,12 @@ class UploadTweetController: UIViewController, UITextViewDelegate {
         stack.anchor(top: view.safeAreaLayoutGuide.topAnchor, left: view.leftAnchor, right: view.rightAnchor, paddingTop: 16, paddingLeft: 16, paddingRight: 16)
         profileIMageView.sd_setImage(with: user.profileImageUrl, completed: nil) //なぜこのファイル内でsdwebimageをimportしなくていいのかが謎
         
+        view.addSubview(addPhotoImageView)
+        addPhotoImageView.centerX(inView: view)
+        addPhotoImageView.anchor(top: captionTextView.bottomAnchor, paddingTop: 20)
+        addPhotoImageView.setDimensions(width: 150, height: 150)
+        addPhotoImageView.layer.cornerRadius = 10
+        
         actionButton.setTitle(viewModel.actionButtonTitle, for: .normal)
         captionTextView.placeholderLabel.text = viewModel.placeholderText
         
@@ -183,5 +218,25 @@ class UploadTweetController: UIViewController, UITextViewDelegate {
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: actiontitle, style: .default, handler: nil))
         self.present(alert, animated: true, completion: nil)
+    }
+}
+
+extension UploadTweetController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        guard let postImage = info[.editedImage] as? UIImage else { return }
+        self.postImage = postImage
+        
+        addPhotoImageView.layer.cornerRadius = 10
+        addPhotoImageView.layer.masksToBounds = true //これで多分、その角を丸くしたlayerに選択した画像を当てはめるのかどうかを決めさせている。だからtrueにすることで丸くなる
+        addPhotoImageView.contentMode = .scaleAspectFill
+        addPhotoImageView.clipsToBounds = true
+        addPhotoImageView.layer.borderColor = UIColor.lightGray.cgColor
+        addPhotoImageView.layer.borderWidth = 3
+        
+        addPhotoImageView.image = postImage
+        
+//        self.addPhotoImageView.setImage(profileimage.withRenderingMode(.alwaysOriginal), for: .normal)
+        
+        dismiss(animated: true, completion: nil) //これでplusphotobutton押した後に"choose"と"cancel"を押す場面がいずれ出てくるけれども、それを押すことができるようになる
     }
 }

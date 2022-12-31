@@ -30,6 +30,7 @@ struct OPs {
     var setID: String?
     var category: String?
     var basedOpinionID: String?
+    var postImageUrl: URL?
     
     var isReply: Bool { return replyingTo != nil }
     
@@ -73,6 +74,11 @@ struct OPs {
         
         if let category = dictionary["category"] as? String {
             self.category = category
+        }
+        
+        if let postImageUrlString = dictionary["postImageUrl"] as? String {
+            guard let url = URL(string: postImageUrlString) else { return }
+            self.postImageUrl = url
         }
     }
 }

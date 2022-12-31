@@ -19,6 +19,10 @@ struct TweetViewModel {
     var profileImageUrl: URL? {
         return user.profileImageUrl
     }
+    
+    var postImageUrl: URL? {
+        return tweet.postImageUrl
+    }
         
     var timestamp: String {
         let formatter = DateComponentsFormatter()

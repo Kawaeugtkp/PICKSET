@@ -13,6 +13,8 @@ class UploadController: UIViewController {
     // MARK: - Properties
     
     private let imagePicker = UIImagePickerController()
+    
+    private var postImage: UIImage?
         
     private let titleTextView = TextViewSeries2()
     
@@ -79,25 +81,22 @@ class UploadController: UIViewController {
     
 //    private let doneItem = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(handleDone))
 
-    private lazy var addImageButton: UIButton = {
-        let button = UIButton(type: .system)
-//        button.setTitle("+ 画像を追加", for: .normal)
-//        button.layer.borderColor = UIColor.twitterBlue.cgColor
-//        button.layer.borderWidth = 1.25
-        button.setImage(UIImage(systemName: "photo"), for: .normal)
-        button.setTitleColor(.twitterBlue, for: .normal)
-//        button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 13)
-        button.addTarget(self, action: #selector(handleAddImage), for: .touchUpInside)
-        return button
-    }()
+
     
-//    private let PlusPhotoButton: UIButton = {
-//        let button = UIButton(type: .system)
-//        button.setImage(UIImage(named: "plus_photo"), for: .normal)
-//        button.tintColor = .picksetRed //tintcolorは例えばこのplus_photoなら元の画像は線とかが水色だけどこのコードの設定で白にできる
-//        button.addTarget(self, action: #selector(handleAddProfilePhoto), for: .touchUpInside)
-//        return button
-//    }()
+    lazy var addPhotoImageView: UIImageView = {
+        let iv = UIImageView()
+        iv.image = UIImage(systemName: "photo")
+        iv.contentMode = .scaleAspectFit
+        iv.clipsToBounds = true
+        iv.backgroundColor = .lightGray
+        iv.tintColor = .white
+        
+        let tap = UITapGestureRecognizer(target: self, action: #selector(selectPostPhoto))
+        iv.isUserInteractionEnabled = true
+        iv.addGestureRecognizer(tap)
+        
+        return iv
+    }()
     
 //    private var cursorPosition = 0
     
@@ -135,7 +134,9 @@ class UploadController: UIViewController {
             alert(title: "カテゴリが選択されていません", message: "", actiontitle: "OK")
             return
         } else {
-            OPsService.shared.uploadPost(topic: topic, description: description, category: category) { (err, ref) in
+            showLoader(true)
+            OPsService.shared.uploadPost(topic: topic, description: description, category: category, postImage: postImage) { (err, ref) in
+                self.showLoader(false)
                 if let error = err {
                     print("DEBUG: Failed to upload tweet with error \(error.localizedDescription)")
                     return
@@ -149,23 +150,12 @@ class UploadController: UIViewController {
         dismiss(animated: true, completion: nil)
     }
     
-    @objc func handleAddImage() {
-//        //PhotoLibraryから画像を選択
-//        imagePicker.sourceType = UIImagePickerController.SourceType.photoLibrary
-//        //デリゲートを設定する
-//        imagePicker.delegate = self
-//        //現れるピッカーNavigationBarの文字色を設定する
-//        imagePicker.navigationBar.tintColor = UIColor.white
-//        //現れるピッカーNavigationBarの背景色を設定する
-//        imagePicker.navigationBar.barTintColor = UIColor.gray
-//        //ピッカーを表示する
-//        present(imagePicker, animated: true, completion: nil)
-//        if let selectedRange = descriptionTextView.selectedTextRange {
-//
-//            cursorPosition = descriptionTextView.offset(from: descriptionTextView.beginningOfDocument, to: selectedRange.start)
-//
-//            print("DEBUG: \(cursorPosition)")
-//        }
+    @objc func selectPostPhoto() {
+        imagePicker.delegate = self
+        imagePicker.sourceType = UIImagePickerController.SourceType.photoLibrary
+        //編集を可能にする
+        imagePicker.allowsEditing = true
+        present(imagePicker, animated: true, completion: nil)
     }
     
 //    @objc func handleDone() {
@@ -175,55 +165,65 @@ class UploadController: UIViewController {
     // MARK: - Helpers
     
     func configureUI() {
+//        view.addSubview(scrollView)
+//        scrollView.fillSuperview()
+        
         view.addSubview(topicLabel)
         topicLabel.anchor(top: view.safeAreaLayoutGuide.topAnchor, left: view.leftAnchor, right: view.rightAnchor, paddingTop: 5, paddingLeft: 15)
-        
+
         titleTextView.layer.borderColor = UIColor.darkGray.cgColor
         titleTextView.layer.borderWidth = 1.0
         titleTextView.layer.cornerRadius = 10
         titleTextView.layer.masksToBounds = true
-        
+
         titleTextView.placeholderLabel.text = "トピックを入力しましょう"
         view.addSubview(titleTextView)
         titleTextView.heightAnchor.constraint(equalToConstant: 100).isActive = true
         titleTextView.anchor(top: topicLabel.bottomAnchor, left: view.leftAnchor, right: view.rightAnchor, paddingTop: 8, paddingLeft: 10, paddingRight: 10)
-        
+
         view.addSubview(wordCountLabel)
         wordCountLabel.anchor(top: titleTextView.bottomAnchor, right: view.rightAnchor, paddingTop: 10, paddingRight: 15)
-        
+
         view.addSubview(categoryLabel)
         categoryLabel.anchor(top: wordCountLabel.bottomAnchor, left: view.leftAnchor, right: view.rightAnchor, paddingTop: 10, paddingLeft: 15)
-        
+
         categoriesTextField.layer.borderColor = UIColor.darkGray.cgColor
         categoriesTextField.layer.borderWidth = 1.0
         categoriesTextField.layer.cornerRadius = 5
         categoriesTextField.layer.masksToBounds = true
-        
+
         view.addSubview(categoriesTextField)
         categoriesTextField.anchor(top: categoryLabel.bottomAnchor, left: view.leftAnchor, paddingTop: 8, paddingLeft: 10, width: 250)
-        
+
         view.addSubview(descriptionLabel)
         descriptionLabel.anchor(top: categoriesTextField.bottomAnchor, left: view.leftAnchor, right: view.rightAnchor, paddingTop: 10, paddingLeft: 15)
-        
+
 //        view.addSubview(addImageButton)
 //        addImageButton.centerY(inView: descriptionLabel)
 //        addImageButton.setDimensions(width: 30, height: 30)
 //        addImageButton.layer.cornerRadius = 2
 //        addImageButton.anchor(right: view.rightAnchor, paddingRight: 15)
-        
-        view.addSubview(addImageButton)
-        addImageButton.setDimensions(width: 30, height: 30)
-        addImageButton.layer.cornerRadius = 2
-        addImageButton.anchor(top: descriptionLabel.bottomAnchor, right: view.rightAnchor, paddingTop: 8, paddingRight: 15)
-        
+//
+//        view.addSubview(addImageButton)
+//        addImageButton.setDimensions(width: 30, height: 30)
+//        addImageButton.layer.cornerRadius = 2
+//        addImageButton.anchor(top: descriptionLabel.bottomAnchor, right: view.rightAnchor, paddingTop: 8, paddingRight: 15)
+
         descriptionTextView.layer.borderColor = UIColor.darkGray.cgColor
         descriptionTextView.layer.borderWidth = 1.0
         descriptionTextView.layer.cornerRadius = 10
         descriptionTextView.layer.masksToBounds = true
         
+        view.addSubview(addPhotoImageView)
+        addPhotoImageView.centerX(inView: view)
+        addPhotoImageView.anchor(bottom: view.safeAreaLayoutGuide.bottomAnchor, paddingBottom: 15)
+        addPhotoImageView.setDimensions(width: 150, height: 150)
+        addPhotoImageView.layer.cornerRadius = 10
+
         descriptionTextView.placeholderLabel.text = "トピックの説明を入力しましょう"
         view.addSubview(descriptionTextView)
-        descriptionTextView.anchor(top: descriptionLabel.bottomAnchor, left: view.leftAnchor, bottom: view.safeAreaLayoutGuide.bottomAnchor, right: addImageButton.leftAnchor, paddingTop: 8, paddingLeft: 10, paddingBottom: 100, paddingRight: 10)
+        descriptionTextView.anchor(top: descriptionLabel.bottomAnchor, left: view.leftAnchor, bottom: addPhotoImageView.topAnchor, right: view.rightAnchor, paddingTop: 8, paddingLeft: 10, paddingBottom: 15, paddingRight: 10)
+        
     }
     
     func configureNavigationBar() {
@@ -296,25 +296,22 @@ extension UploadController: UITextViewDelegate {
     }
 }
 
-//extension UploadController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
-//
-//    //MARK:-メモに画像を貼り付ける処理
-//    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-//        if let image = info[.originalImage] as? UIImage {
-//
-//            let fullString = NSMutableAttributedString(string: descriptionTextView.text)
-//
-//            let imageWidth = image.size.width
-//            // 画像の幅を調整したい場合paddingなどをframeから引く
-//            let padding: CGFloat = 100
-//            let scaleFactor = imageWidth / (descriptionTextView.frame.size.width - padding)
-//            let imageAttachment = NSTextAttachment()
-//            imageAttachment.image = UIImage(cgImage: image.cgImage!, scale: scaleFactor, orientation: .up)
-//            let imageString = NSAttributedString(attachment: imageAttachment)
-//            fullString.insert(imageString, at: cursorPosition)
-//            // TextViewに画像を含んだテキストをセット
-//            descriptionTextView.attributedText = fullString
-//        }
-//        dismiss(animated: true, completion: nil)
-//    }
-//}
+extension UploadController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        guard let postImage = info[.editedImage] as? UIImage else { return }
+        self.postImage = postImage
+        
+        addPhotoImageView.layer.cornerRadius = 10
+        addPhotoImageView.layer.masksToBounds = true //これで多分、その角を丸くしたlayerに選択した画像を当てはめるのかどうかを決めさせている。だからtrueにすることで丸くなる
+        addPhotoImageView.contentMode = .scaleAspectFill
+        addPhotoImageView.clipsToBounds = true
+        addPhotoImageView.layer.borderColor = UIColor.lightGray.cgColor
+        addPhotoImageView.layer.borderWidth = 3
+        
+        addPhotoImageView.image = postImage
+        
+//        self.addPhotoImageView.setImage(profileimage.withRenderingMode(.alwaysOriginal), for: .normal)
+        
+        dismiss(animated: true, completion: nil) //これでplusphotobutton押した後に"choose"と"cancel"を押す場面がいずれ出てくるけれども、それを押すことができるようになる
+    }
+}

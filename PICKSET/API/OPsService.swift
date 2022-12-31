@@ -6,23 +6,129 @@
 //
 
 import Firebase
+import UIKit
+import FirebaseStorage
 
 struct OPsService {
     static let shared = OPsService()
     
-    func uploadPost(topic: String, description: String, category: String, completion: @escaping(Error?, DatabaseReference) -> Void) {
+    func uploadPost(topic: String, description: String, category: String, postImage: UIImage? = nil, completion: @escaping(Error?, DatabaseReference) -> Void) {
         guard let uid = Auth.auth().currentUser?.uid else { return }
         
-        let values = ["uid": uid, "timestamp": Int(NSDate().timeIntervalSince1970), "topic": topic, "description": description, "category": category, "vote": 0, "type": 0] as [String : Any]
+        var values = ["uid": uid, "timestamp": Int(NSDate().timeIntervalSince1970), "topic": topic, "description": description, "category": category, "vote": 0, "type": 0] as [String : Any]
         
-        REF_POST.childByAutoId().updateChildValues(values) { err, ref in
+        if let postImage = postImage {
+            guard let imageData = postImage.jpegData(compressionQuality: 0.3) else { return }
+            let filename = NSUUID().uuidString
+            let storageRef = STORAGE_OPS_IMAGES.child(filename)
             
-            //update user-tweet structure after tweet upload completes
-            guard let postID = ref.key else { return }
-            REF_USER_POSTS.child(uid).updateChildValues([postID: 1]) { (err, ref) in
-                REF_OPS.child(postID).updateChildValues(values) { (err, ref) in
-                    REF_USER_OPS.child(uid).updateChildValues([postID: 1]) { (err, ref) in
-                        decideCategory(postID: postID, category: category, completion: completion)
+            storageRef.putData(imageData) { meta, error in
+                storageRef.downloadURL { url, error in
+                    guard let postImageUrl = url?.absoluteString else { return }
+                    values["postImageUrl"] = postImageUrl
+                    
+                    REF_POST.childByAutoId().updateChildValues(values) { err, ref in
+                        //update user-tweet structure after tweet upload completes
+                        guard let postID = ref.key else { return }
+                        REF_USER_POSTS.child(uid).updateChildValues([postID: 1]) { (err, ref) in
+                            REF_OPS.child(postID).updateChildValues(values) { (err, ref) in
+                                REF_USER_OPS.child(uid).updateChildValues([postID: 1]) { (err, ref) in
+                                    decideCategory(postID: postID, category: category, completion: completion)
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        } else {
+            REF_POST.childByAutoId().updateChildValues(values) { err, ref in
+                //update user-tweet structure after tweet upload completes
+                guard let postID = ref.key else { return }
+                REF_USER_POSTS.child(uid).updateChildValues([postID: 1]) { (err, ref) in
+                    REF_OPS.child(postID).updateChildValues(values) { (err, ref) in
+                        REF_USER_OPS.child(uid).updateChildValues([postID: 1]) { (err, ref) in
+                            decideCategory(postID: postID, category: category, completion: completion)
+                        }
+                    }
+                }
+            }
+        }
+    }
+    
+    func uploadOpinion(post: OPs, setID: String, caption: String, type: UploadTweetConfiguration, postImage: UIImage? = nil, completion: @escaping(Error?, DatabaseReference) -> Void) {
+        guard let uid = Auth.auth().currentUser?.uid else { return }
+        var values = ["uid": uid, "timestamp": Int(NSDate().timeIntervalSince1970), "replyCount": 0, "caption": caption, "type": 1, "postID": post.opsID, "setID": setID] as [String : Any]
+        
+        if let postImage = postImage {
+            guard let imageData = postImage.jpegData(compressionQuality: 0.3) else { return }
+            let filename = NSUUID().uuidString
+            let storageRef = STORAGE_OPS_IMAGES.child(filename)
+            
+            storageRef.putData(imageData) { meta, error in
+                storageRef.downloadURL { url, error in
+                    guard let postImageUrl = url?.absoluteString else { return }
+                    values["postImageUrl"] = postImageUrl
+                    
+                    switch type {
+                    case .tweet:
+                        //let ref = REF_TWEETS.childByAutoId() //これIDの自動生成ってことか。あの訳のわからない
+                        
+                        REF_POST_OPINIONS.child(post.opsID).child(setID).child(uid).childByAutoId().updateChildValues(values) { err, ref in
+                            
+                            //update user-tweet structure after tweet upload completes
+                            guard let opinionID = ref.key else { return }
+                            REF_OPS.child(opinionID).updateChildValues(values) { (err, ref) in
+                                REF_USER_OPS.child(uid).updateChildValues([opinionID: 1]) { (err, ref) in
+                                    REF_USER_OPINIONS.child(uid).updateChildValues([opinionID: 1]) { (err, ref) in
+                                        REF_SETUSERS_OPINIONS.child(setID).child(uid).updateChildValues([opinionID: 1], withCompletionBlock: completion)
+                                    }
+                                }
+                            }
+                        }
+                    case .reply(let tweet):
+                        values["replyingTo"] = tweet.user.username
+                        values["basedOpinionID"] = tweet.opsID
+                        REF_OPS.childByAutoId().updateChildValues(values) { (err, ref) in //refはREF_TWEET_REPLIES.child(tweet.tweetID)の一個下の階層にあるやつ
+                            guard let replyKey = ref.key else { return }
+                            REF_USER_REPLIES.child(uid).child(tweet.opsID).updateChildValues([replyKey: 1]) { (err, ref) in
+                                REF_OPINION_REPLIES.child(tweet.opsID).child(replyKey).updateChildValues(values) { (err, ref) in
+                                    REF_USER_OPS.child(uid).updateChildValues([replyKey: 1]) { (err, ref) in
+                                        REF_USER_OPINIONS.child(uid).updateChildValues([replyKey: 1], withCompletionBlock: completion)
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        } else {
+            switch type {
+            case .tweet:
+                //let ref = REF_TWEETS.childByAutoId() //これIDの自動生成ってことか。あの訳のわからない
+                
+                REF_POST_OPINIONS.child(post.opsID).child(setID).child(uid).childByAutoId().updateChildValues(values) { err, ref in
+                    
+                    //update user-tweet structure after tweet upload completes
+                    guard let opinionID = ref.key else { return }
+                    REF_OPS.child(opinionID).updateChildValues(values) { (err, ref) in
+                        REF_USER_OPS.child(uid).updateChildValues([opinionID: 1]) { (err, ref) in
+                            REF_USER_OPINIONS.child(uid).updateChildValues([opinionID: 1]) { (err, ref) in
+                                REF_SETUSERS_OPINIONS.child(setID).child(uid).updateChildValues([opinionID: 1], withCompletionBlock: completion)
+                            }
+                        }
+                    }
+                }
+            case .reply(let tweet):
+                values["replyingTo"] = tweet.user.username
+                values["basedOpinionID"] = tweet.opsID
+                REF_OPS.childByAutoId().updateChildValues(values) { (err, ref) in //refはREF_TWEET_REPLIES.child(tweet.tweetID)の一個下の階層にあるやつ
+                    guard let replyKey = ref.key else { return }
+                    REF_USER_REPLIES.child(uid).child(tweet.opsID).updateChildValues([replyKey: 1]) { (err, ref) in
+                        REF_OPINION_REPLIES.child(tweet.opsID).child(replyKey).updateChildValues(values) { (err, ref) in
+                            REF_USER_OPS.child(uid).updateChildValues([replyKey: 1]) { (err, ref) in
+                                REF_USER_OPINIONS.child(uid).updateChildValues([replyKey: 1], withCompletionBlock: completion)
+                            }
+                        }
                     }
                 }
             }
@@ -60,6 +166,10 @@ struct OPsService {
             REF_CATEGORIES.child("love").updateChildValues([postID: 1], withCompletionBlock: completion)
         }
     }
+    
+    func fetchMatchOPs(searchText: String, completion: @escaping([OPs]) -> Void) {
+    }
+
     
     func fetchTweets(completion: @escaping([OPs]) -> Void) {
         var tweets = [OPs]()
@@ -220,43 +330,6 @@ struct OPsService {
             guard let dictionary = snapshot.value as? [String: Any] else { return }
             guard let type = dictionary["type"] as? Int else { return }
             completion(type == 1) //デフォルトがtweet.didlikeはfalseだけれどもちゃんと以前LIKeされていればデータベースにはライクした情報が残っており、それがあるかどうかで確認をしている。つまり、didlikeがtrueなのかfalseなのかで確認はしていない
-        }
-    }
-    
-    func uploadOpinion(post: OPs, setID: String, caption: String, type: UploadTweetConfiguration, completion: @escaping(Error?, DatabaseReference) -> Void) {
-        guard let uid = Auth.auth().currentUser?.uid else { return }
-        var values = ["uid": uid, "timestamp": Int(NSDate().timeIntervalSince1970), "replyCount": 0, "caption": caption, "type": 1, "postID": post.opsID, "setID": setID] as [String : Any]
-        
-        switch type {
-        case .tweet:
-            print("DEBUG: hello")
-            //let ref = REF_TWEETS.childByAutoId() //これIDの自動生成ってことか。あの訳のわからない
-            
-            REF_POST_OPINIONS.child(post.opsID).child(setID).child(uid).childByAutoId().updateChildValues(values) { err, ref in
-                
-                //update user-tweet structure after tweet upload completes
-                guard let opinionID = ref.key else { return }
-                REF_OPS.child(opinionID).updateChildValues(values) { (err, ref) in
-                    REF_USER_OPS.child(uid).updateChildValues([opinionID: 1]) { (err, ref) in
-                        REF_USER_OPINIONS.child(uid).updateChildValues([opinionID: 1]) { (err, ref) in
-                            REF_SETUSERS_OPINIONS.child(setID).child(uid).updateChildValues([opinionID: 1], withCompletionBlock: completion)
-                        }
-                    }
-                }
-            }
-        case .reply(let tweet):
-            values["replyingTo"] = tweet.user.username
-            values["basedOpinionID"] = tweet.opsID
-            REF_OPS.childByAutoId().updateChildValues(values) { (err, ref) in //refはREF_TWEET_REPLIES.child(tweet.tweetID)の一個下の階層にあるやつ
-                guard let replyKey = ref.key else { return }
-                REF_USER_REPLIES.child(uid).child(tweet.opsID).updateChildValues([replyKey: 1]) { (err, ref) in
-                    REF_OPINION_REPLIES.child(tweet.opsID).child(replyKey).updateChildValues(values) { (err, ref) in
-                        REF_USER_OPS.child(uid).updateChildValues([replyKey: 1]) { (err, ref) in
-                            REF_USER_OPINIONS.child(uid).updateChildValues([replyKey: 1], withCompletionBlock: completion)
-                        }
-                    }
-                }
-            }
         }
     }
     

@@ -21,7 +21,7 @@
 		E4820F2428C8EA28006F69C8 /* EditProfileCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4820F2328C8EA28006F69C8 /* EditProfileCell.swift */; };
 		E4820F2628C8EA4A006F69C8 /* EditProfileFooter.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4820F2528C8EA4A006F69C8 /* EditProfileFooter.swift */; };
 		E4820F2828C8EAEF006F69C8 /* InputTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4820F2728C8EAEF006F69C8 /* InputTextView.swift */; };
-		E4820F2A28C8EB0C006F69C8 /* TweetCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4820F2928C8EB0C006F69C8 /* TweetCell.swift */; };
+		E4820F2A28C8EB0C006F69C8 /* OPsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4820F2928C8EB0C006F69C8 /* OPsCell.swift */; };
 		E4820F2C28C8EB2B006F69C8 /* UserCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4820F2B28C8EB2B006F69C8 /* UserCell.swift */; };
 		E4820F2E28C8EB4E006F69C8 /* TweetHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4820F2D28C8EB4E006F69C8 /* TweetHeader.swift */; };
 		E4820F3028C8EB6D006F69C8 /* ActionSheetCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4820F2F28C8EB6D006F69C8 /* ActionSheetCell.swift */; };
@@ -57,7 +57,6 @@
 		E49C90AC28CDE91A00A2B8E5 /* PostController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E49C90AB28CDE91A00A2B8E5 /* PostController.swift */; };
 		E49C90AE28CDEA2F00A2B8E5 /* PostHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = E49C90AD28CDEA2F00A2B8E5 /* PostHeader.swift */; };
 		E49C90B028D5A06D00A2B8E5 /* PostHeaderViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E49C90AF28D5A06C00A2B8E5 /* PostHeaderViewModel.swift */; };
-		E49C90B228D5A0E600A2B8E5 /* Post.swift in Sources */ = {isa = PBXBuildFile; fileRef = E49C90B128D5A0E600A2B8E5 /* Post.swift */; };
 		E49C90B828D73CA000A2B8E5 /* SetCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E49C90B728D73C9F00A2B8E5 /* SetCell.swift */; };
 		E49C90BA28D73DFC00A2B8E5 /* SetFilterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E49C90B928D73DFB00A2B8E5 /* SetFilterView.swift */; };
 		E49C90BC28D860C500A2B8E5 /* SetController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E49C90BB28D860C400A2B8E5 /* SetController.swift */; };
@@ -69,6 +68,7 @@
 		E4ADE8FA2907EEC10005258E /* LFFUsersController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4ADE8F92907EEC10005258E /* LFFUsersController.swift */; };
 		E4B4506D28F8D59D001364FA /* categoryTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4B4506C28F8D59D001364FA /* categoryTextField.swift */; };
 		E4B5EAD928E7084A0062536E /* DetailController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4B5EAD828E7084A0062536E /* DetailController.swift */; };
+		E4CC1FB0295ED2460022C18E /* DetailScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4CC1FAF295ED2460022C18E /* DetailScrollView.swift */; };
 		E4EDF4A2290CE6E9009DEDA6 /* TopController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4EDF4A1290CE6E9009DEDA6 /* TopController.swift */; };
 		E4EDF4A4290CE919009DEDA6 /* SportsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4EDF4A3290CE919009DEDA6 /* SportsController.swift */; };
 		E4F2EF0128C8DBB10095E435 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4F2EF0028C8DBB10095E435 /* AppDelegate.swift */; };
@@ -98,7 +98,7 @@
 		E4820F2328C8EA28006F69C8 /* EditProfileCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProfileCell.swift; sourceTree = "<group>"; };
 		E4820F2528C8EA4A006F69C8 /* EditProfileFooter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProfileFooter.swift; sourceTree = "<group>"; };
 		E4820F2728C8EAEF006F69C8 /* InputTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputTextView.swift; sourceTree = "<group>"; };
-		E4820F2928C8EB0C006F69C8 /* TweetCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TweetCell.swift; sourceTree = "<group>"; };
+		E4820F2928C8EB0C006F69C8 /* OPsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OPsCell.swift; sourceTree = "<group>"; };
 		E4820F2B28C8EB2B006F69C8 /* UserCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserCell.swift; sourceTree = "<group>"; };
 		E4820F2D28C8EB4E006F69C8 /* TweetHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TweetHeader.swift; sourceTree = "<group>"; };
 		E4820F2F28C8EB6D006F69C8 /* ActionSheetCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionSheetCell.swift; sourceTree = "<group>"; };
@@ -134,7 +134,6 @@
 		E49C90AB28CDE91A00A2B8E5 /* PostController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostController.swift; sourceTree = "<group>"; };
 		E49C90AD28CDEA2F00A2B8E5 /* PostHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostHeader.swift; sourceTree = "<group>"; };
 		E49C90AF28D5A06C00A2B8E5 /* PostHeaderViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostHeaderViewModel.swift; sourceTree = "<group>"; };
-		E49C90B128D5A0E600A2B8E5 /* Post.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Post.swift; sourceTree = "<group>"; };
 		E49C90B728D73C9F00A2B8E5 /* SetCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetCell.swift; sourceTree = "<group>"; };
 		E49C90B928D73DFB00A2B8E5 /* SetFilterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetFilterView.swift; sourceTree = "<group>"; };
 		E49C90BB28D860C400A2B8E5 /* SetController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetController.swift; sourceTree = "<group>"; };
@@ -146,6 +145,7 @@
 		E4ADE8F92907EEC10005258E /* LFFUsersController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LFFUsersController.swift; sourceTree = "<group>"; };
 		E4B4506C28F8D59D001364FA /* categoryTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = categoryTextField.swift; sourceTree = "<group>"; };
 		E4B5EAD828E7084A0062536E /* DetailController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailController.swift; sourceTree = "<group>"; };
+		E4CC1FAF295ED2460022C18E /* DetailScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailScrollView.swift; sourceTree = "<group>"; };
 		E4EDF4A1290CE6E9009DEDA6 /* TopController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopController.swift; sourceTree = "<group>"; };
 		E4EDF4A3290CE919009DEDA6 /* SportsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SportsController.swift; sourceTree = "<group>"; };
 		E4F2EEFD28C8DBB10095E435 /* PICKSET.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PICKSET.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -269,7 +269,6 @@
 				E4820F1428C8E8FB006F69C8 /* User.swift */,
 				E4820F1628C8E92E006F69C8 /* OPs.swift */,
 				E4820F1828C8E957006F69C8 /* Notification.swift */,
-				E49C90B128D5A0E600A2B8E5 /* Post.swift */,
 				E49C90BF28D8D95900A2B8E5 /* Sets.swift */,
 			);
 			path = Model;
@@ -280,7 +279,7 @@
 			children = (
 				E4820F1A28C8E974006F69C8 /* Profile */,
 				E4820F2728C8EAEF006F69C8 /* InputTextView.swift */,
-				E4820F2928C8EB0C006F69C8 /* TweetCell.swift */,
+				E4820F2928C8EB0C006F69C8 /* OPsCell.swift */,
 				E4820F2B28C8EB2B006F69C8 /* UserCell.swift */,
 				E4820F2D28C8EB4E006F69C8 /* TweetHeader.swift */,
 				E4820F2F28C8EB6D006F69C8 /* ActionSheetCell.swift */,
@@ -294,6 +293,7 @@
 				E4B4506C28F8D59D001364FA /* categoryTextField.swift */,
 				E401D95D294063F900C0CB8D /* CustomTextField.swift */,
 				E4368BCC295B133F0000390B /* AdCell.swift */,
+				E4CC1FAF295ED2460022C18E /* DetailScrollView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -512,6 +512,7 @@
 				E4820F2228C8E9F2006F69C8 /* EditProfileHeader.swift in Sources */,
 				E4820F5128C95436006F69C8 /* UploadTweetController.swift in Sources */,
 				E4820F5F28C95515006F69C8 /* NotificationService.swift in Sources */,
+				E4CC1FB0295ED2460022C18E /* DetailScrollView.swift in Sources */,
 				E4ADE8FA2907EEC10005258E /* LFFUsersController.swift in Sources */,
 				E4820F6328C9554E006F69C8 /* Utilities.swift in Sources */,
 				E4820F1528C8E8FB006F69C8 /* User.swift in Sources */,
@@ -519,9 +520,8 @@
 				E4820F5928C954C7006F69C8 /* AuthService.swift in Sources */,
 				E4820F3428C95239006F69C8 /* TweetViewModel.swift in Sources */,
 				E4820F5B28C954E2006F69C8 /* UserService.swift in Sources */,
-				E49C90B228D5A0E600A2B8E5 /* Post.swift in Sources */,
 				E4368BCD295B133F0000390B /* AdCell.swift in Sources */,
-				E4820F2A28C8EB0C006F69C8 /* TweetCell.swift in Sources */,
+				E4820F2A28C8EB0C006F69C8 /* OPsCell.swift in Sources */,
 				E4ADE8F82903BB6F0005258E /* SaveController.swift in Sources */,
 				E401D95E294063F900C0CB8D /* CustomTextField.swift in Sources */,
 				E49C90BE28D87D6E00A2B8E5 /* SetTextView.swift in Sources */,

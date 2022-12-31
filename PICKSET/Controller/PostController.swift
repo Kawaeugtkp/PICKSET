@@ -19,7 +19,6 @@ class PostController: UICollectionViewController {
     
     private var opinions = [OPs]() {
         didSet {
-            print("DEBUG: Good morning")
             collectionView.reloadData()
             if !opinions.isEmpty {
                 recommendLabel.isHidden = true
@@ -134,7 +133,7 @@ class PostController: UICollectionViewController {
 //        collectionView.contentInsetAdjustmentBehavior = .never
 //        navigationController?.navigationBar.isTranslucent = true
         collectionView.register(PostHeader.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: headerIdentifier)
-        collectionView.register(TweetCell.self, forCellWithReuseIdentifier: reuseIdentifier)
+        collectionView.register(OPsCell.self, forCellWithReuseIdentifier: reuseIdentifier)
 //        let selectedIndexPath = IndexPath(row: 0, section: 0)
 //        FilterBar.selectItem(at: selectedIndexPath, animated: true, scrollPosition: .left)
     }
@@ -198,8 +197,8 @@ extension PostController {
     }
     
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath) as! TweetCell
-        cell.tweet = opinions[indexPath.row]
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath) as! OPsCell
+        cell.ops = opinions[indexPath.row]
         cell.delegate = self
         cell.postLabel.isHidden = true
         cell.likeImageView.isHidden = true
@@ -247,6 +246,9 @@ extension PostController: UICollectionViewDelegateFlowLayout {
         }
         if tweet.isReply {
             height += 20
+        }
+        if tweet.postImageUrl != nil {
+            height += 170
         }
         collectionView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 70, right: 0)
         return CGSize(width: view.frame.width, height: height + 60) //view.frame.widthはviewの横幅、まあスマホの画面の横幅って認識で良いっぽい。で、ここのheightを十分にとらないと、cellの中身がぎゅっと凝縮された感じになってしまって意図した配置にならないのでそこは注意しなければならない
@@ -339,25 +341,29 @@ extension PostController: PostHeaderDelegate {
 // MARK: - TweetCellDelegate
 
 extension PostController: TweetCellDelegate {
-    func handleReplyLabelTapped(_ cell: TweetCell) {
+    func handlePostImageTapped(cell: OPsCell, imageView: UIImageView) {
         
     }
     
-    func handleMarked(_ cell: TweetCell) {
-        guard let opsID = cell.tweet?.opsID else { return }
+    func handleReplyLabelTapped(_ cell: OPsCell) {
+        
+    }
+    
+    func handleMarked(_ cell: OPsCell) {
+        guard let opsID = cell.ops?.opsID else { return }
         OPsService.shared.uploadSaves(opsID: opsID) { (err, ref) in
             self.alert(title: "マークリストに追加しました", message: "", actiontitle: "OK")
         }
     }
     
-    func handleProfileImageTapped(_ cell: TweetCell) {
-        guard let user = cell.tweet?.user else { return }
+    func handleProfileImageTapped(_ cell: OPsCell) {
+        guard let user = cell.ops?.user else { return }
         let controller = ProfileController(user: user) 
         navigationController?.pushViewController(controller, animated: true)
     }
     
-    func handleReplyTapped(_ cell: TweetCell) {
-        guard let tweet = cell.tweet else { return }
+    func handleReplyTapped(_ cell: OPsCell) {
+        guard let tweet = cell.ops else { return }
         SetService.shared.fetchSetID(post: post) { setID in
             SetService.shared.checkIfOpinionUserSelectThisSet(post: self.post, setID: setID, uid: tweet.user.uid) { match in
                 if match {
@@ -371,18 +377,18 @@ extension PostController: TweetCellDelegate {
         }
     }
     
-    func handleLikeTapped(_ cell: TweetCell) {
-        guard let tweet = cell.tweet else { return }
+    func handleLikeTapped(_ cell: OPsCell) {
+        guard let tweet = cell.ops else { return }
         SetService.shared.fetchSetID(post: post) { setID in
             SetService.shared.checkIfOpinionUserSelectThisSet(post: self.post, setID: setID, uid: tweet.user.uid) { match in
                 if match {
                     guard let postID = tweet.postID else { return }
-                    guard cell.tweet?.didLike != true || cell.tweet?.likes != 0 else { return }
+                    guard cell.ops?.didLike != true || cell.ops?.likes != 0 else { return }
                     
                     OPsService.shared.likeOpinion(opinion: tweet, postID: postID) { err, ref in
-                        cell.tweet?.didLike.toggle()
+                        cell.ops?.didLike.toggle()
                         let likes = tweet.didLike ? tweet.likes - 1 : tweet.likes + 1
-                        cell.tweet?.likes = likes
+                        cell.ops?.likes = likes
                         cell.likeImageView.isHidden = true
                         cell.postLabel.isHidden = true
                     }
@@ -400,7 +406,7 @@ extension PostController: TweetCellDelegate {
         }
     }
     
-    func handlePostLabelTapped(_ cell: TweetCell) {
+    func handlePostLabelTapped(_ cell: OPsCell) {
         
     }
 }

@@ -174,7 +174,6 @@ class RegistrationController: UIViewController {
 }
 
 extension RegistrationController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
-    
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         guard let profileimage = info[.editedImage] as? UIImage else { return }
         self.profileImage = profileimage
