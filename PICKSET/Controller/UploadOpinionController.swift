@@ -11,7 +11,7 @@ import Firebase
 
 //多分このcontrollerでfeedcontrollerみたいにuserを呼び出せなくてちょっと面倒なことしているのは、maintabucontrollerでfetchuserしてそのサブ的な位置にfeedcontrollerがあるから（あの配列作ってる感じからそんな気がする）
 
-class UploadTweetController: UIViewController, UITextViewDelegate {
+class UploadOpinionController: UIViewController, UITextViewDelegate {
     
     //MARK: - Properties
     
@@ -221,7 +221,7 @@ class UploadTweetController: UIViewController, UITextViewDelegate {
     }
 }
 
-extension UploadTweetController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+extension UploadOpinionController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         guard let postImage = info[.editedImage] as? UIImage else { return }
         self.postImage = postImage

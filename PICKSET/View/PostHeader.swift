@@ -104,6 +104,17 @@ class PostHeader: UICollectionReusableView {
         return button
     }()
     
+    private let corButtton: UIButton = {
+        let button = UIButton(type: .system)
+        button.setTitle("結果を支持", for: .normal)
+        button.setTitleColor(.white, for: .normal)
+        button.backgroundColor = .systemOrange
+        button.layer.borderColor = UIColor.systemOrange.cgColor
+        button.layer.borderWidth = 1
+        button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 15)
+        return button
+    }()
+    
     // MARK: - Lifecycle
     
     override init(frame: CGRect) {
@@ -124,6 +135,13 @@ class PostHeader: UICollectionReusableView {
         addSubview(userLabel)
         userLabel.anchor(top: topAnchor, paddingTop: -10)
         userLabel.centerX(inView: self)
+        
+        addSubview(corButtton)
+        corButtton.centerY(inView: userLabel)
+        corButtton.anchor(right: rightAnchor, paddingRight: 10)
+        corButtton.setDimensions(width: 100, height: 30)
+        corButtton.layer.cornerRadius = 5
+        
         
         addSubview(topicLabel)
         topicLabel.anchor(top: userLabel.bottomAnchor, left: leftAnchor, right: rightAnchor, paddingTop: 10, paddingLeft: 30, paddingRight: 30)

@@ -295,7 +295,7 @@ extension PostController: PostHeaderDelegate {
         guard let set = cell.set else { return }
         SetService.shared.fetchSetID(post: post) { setID in
             if set.setID == setID {
-                let controller = UploadTweetController(post: self.post, user: self.user, config: .tweet, setID: setID)
+                let controller = UploadOpinionController(post: self.post, user: self.user, config: .tweet, setID: setID)
                 let nav = UINavigationController(rootViewController: controller)
                 self.present(nav, animated: true, completion: nil)
             } else {
@@ -367,7 +367,7 @@ extension PostController: TweetCellDelegate {
         SetService.shared.fetchSetID(post: post) { setID in
             SetService.shared.checkIfOpinionUserSelectThisSet(post: self.post, setID: setID, uid: tweet.user.uid) { match in
                 if match {
-                    let controller = UploadTweetController(post: self.post, user: self.user, config: .reply(tweet), setID: setID)
+                    let controller = UploadOpinionController(post: self.post, user: self.user, config: .reply(tweet), setID: setID)
                     let nav = UINavigationController(rootViewController: controller)
                     self.present(nav, animated: true, completion: nil)
                 } else {

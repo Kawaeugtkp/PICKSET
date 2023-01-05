@@ -191,6 +191,8 @@ class UploadController: UIViewController {
         categoriesTextField.layer.borderWidth = 1.0
         categoriesTextField.layer.cornerRadius = 5
         categoriesTextField.layer.masksToBounds = true
+        
+        categoriesTextField.delegate = self
 
         view.addSubview(categoriesTextField)
         categoriesTextField.anchor(top: categoryLabel.bottomAnchor, left: view.leftAnchor, paddingTop: 8, paddingLeft: 10, width: 250)
@@ -313,5 +315,18 @@ extension UploadController: UIImagePickerControllerDelegate, UINavigationControl
 //        self.addPhotoImageView.setImage(profileimage.withRenderingMode(.alwaysOriginal), for: .normal)
         
         dismiss(animated: true, completion: nil) //これでplusphotobutton押した後に"choose"と"cancel"を押す場面がいずれ出てくるけれども、それを押すことができるようになる
+    }
+}
+
+extension UploadController: UITextFieldDelegate {
+//    func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
+//        categoriesTextField.text = categoryItems[0]
+//        return true
+//    }
+    
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        if categoriesTextField.text == "カテゴリを選択してください" {
+            categoriesTextField.text = categoryItems[0]
+        }
     }
 }

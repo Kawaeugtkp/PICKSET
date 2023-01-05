@@ -241,7 +241,7 @@ extension TweetController: TweetHeaderDelegate {
             guard let setID = opinion.setID else { return }
             OPsService.shared.fetchOP(withOPsID: postID) { post in
                 UserService.shared.fetchUser(uid: uid) { user in
-                    let controller = UploadTweetController(post: post, user: user, config: .reply(self.opinion), setID: setID)
+                    let controller = UploadOpinionController(post: post, user: user, config: .reply(self.opinion), setID: setID)
                     let nav = UINavigationController(rootViewController: controller)
                     self.present(nav, animated: true, completion: nil)
                 }
@@ -364,7 +364,7 @@ extension TweetController: TweetCellDelegate {
                     if match {
                         guard let uid = Auth.auth().currentUser?.uid else { return }
                         UserService.shared.fetchUser(uid: uid) { user in
-                            let controller = UploadTweetController(post: post, user: user, config: .reply(tweet), setID: setID)
+                            let controller = UploadOpinionController(post: post, user: user, config: .reply(tweet), setID: setID)
                             let nav = UINavigationController(rootViewController: controller)
                             self.present(nav, animated: true, completion: nil)
                         }

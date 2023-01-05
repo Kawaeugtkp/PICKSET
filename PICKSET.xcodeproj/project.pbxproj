@@ -39,7 +39,7 @@
 		E4820F4928C95395006F69C8 /* SearchController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4820F4828C95395006F69C8 /* SearchController.swift */; };
 		E4820F4D28C953F1006F69C8 /* NotificationsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4820F4C28C953F1006F69C8 /* NotificationsController.swift */; };
 		E4820F4F28C95415006F69C8 /* ConversationsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4820F4E28C95415006F69C8 /* ConversationsController.swift */; };
-		E4820F5128C95436006F69C8 /* UploadTweetController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4820F5028C95436006F69C8 /* UploadTweetController.swift */; };
+		E4820F5128C95436006F69C8 /* UploadOpinionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4820F5028C95436006F69C8 /* UploadOpinionController.swift */; };
 		E4820F5328C95472006F69C8 /* ProfileController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4820F5228C95472006F69C8 /* ProfileController.swift */; };
 		E4820F5528C95489006F69C8 /* TweetController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4820F5428C95489006F69C8 /* TweetController.swift */; };
 		E4820F5728C954A6006F69C8 /* EditProfileController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4820F5628C954A6006F69C8 /* EditProfileController.swift */; };
@@ -116,7 +116,7 @@
 		E4820F4828C95395006F69C8 /* SearchController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchController.swift; sourceTree = "<group>"; };
 		E4820F4C28C953F1006F69C8 /* NotificationsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationsController.swift; sourceTree = "<group>"; };
 		E4820F4E28C95415006F69C8 /* ConversationsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationsController.swift; sourceTree = "<group>"; };
-		E4820F5028C95436006F69C8 /* UploadTweetController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UploadTweetController.swift; sourceTree = "<group>"; };
+		E4820F5028C95436006F69C8 /* UploadOpinionController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UploadOpinionController.swift; sourceTree = "<group>"; };
 		E4820F5228C95472006F69C8 /* ProfileController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileController.swift; sourceTree = "<group>"; };
 		E4820F5428C95489006F69C8 /* TweetController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TweetController.swift; sourceTree = "<group>"; };
 		E4820F5628C954A6006F69C8 /* EditProfileController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProfileController.swift; sourceTree = "<group>"; };
@@ -323,7 +323,7 @@
 				E4820F4828C95395006F69C8 /* SearchController.swift */,
 				E4820F4C28C953F1006F69C8 /* NotificationsController.swift */,
 				E4820F4E28C95415006F69C8 /* ConversationsController.swift */,
-				E4820F5028C95436006F69C8 /* UploadTweetController.swift */,
+				E4820F5028C95436006F69C8 /* UploadOpinionController.swift */,
 				E4820F5228C95472006F69C8 /* ProfileController.swift */,
 				E4820F5628C954A6006F69C8 /* EditProfileController.swift */,
 				E49C909F28CA939D00A2B8E5 /* UploadController.swift */,
@@ -510,7 +510,7 @@
 				E4820F1728C8E92E006F69C8 /* OPs.swift in Sources */,
 				E4820F3C28C952C4006F69C8 /* NotificationViewModel.swift in Sources */,
 				E4820F2228C8E9F2006F69C8 /* EditProfileHeader.swift in Sources */,
-				E4820F5128C95436006F69C8 /* UploadTweetController.swift in Sources */,
+				E4820F5128C95436006F69C8 /* UploadOpinionController.swift in Sources */,
 				E4820F5F28C95515006F69C8 /* NotificationService.swift in Sources */,
 				E4CC1FB0295ED2460022C18E /* DetailScrollView.swift in Sources */,
 				E4ADE8FA2907EEC10005258E /* LFFUsersController.swift in Sources */,
